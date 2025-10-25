@@ -1,0 +1,22 @@
+2025-10-25 07:15:36,826 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 07:15:43,043 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 6.2s
+2025-10-25 07:16:10,430 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.000 < 0.1)
+2025-10-25 07:16:10,601 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: (9) the ambush - youtube — zen browser
+2025-10-25 07:16:10,602 - INFO - WINDOW SWITCH: '(9) The Ambush - YouTube — Zen Browser'  (Category: unknown)
+2025-10-25 07:16:12,086 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 1.7s
+2025-10-25 07:16:17,601 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.077 < 0.1)
+2025-10-25 07:16:32,769 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 15.2s
+2025-10-25 07:16:39,091 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 07:16:42,468 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 3.4s
+2025-10-25 00:47:22,651 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.040 < 0.1)
+2025-10-25 00:47:25,735 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 3.1s
+2025-10-25 00:52:47,906 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 00:52:48,830 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 0.9s
+2025-10-25 00:52:52,152 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 00:52:55,447 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 3.3s
+2025-10-25 00:53:03,154 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.000 < 0.1)
+2025-10-25 00:53:03,749 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 0.6s
+2025-10-25 00:53:13,093 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: (9) the ambush - youtube — zen browser
+2025-10-25 00:53:13,094 - INFO - WINDOW SWITCH: '(9) The Ambush - YouTube — Zen Browser'  (Category: unknown)
+2025-10-25 00:53:16,947 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 00:53:23,731 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 6.8s

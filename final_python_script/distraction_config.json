@@ -1,0 +1,40 @@
+{
+  "blacklisted_apps": [
+    "chrome.exe",
+    "firefox.exe", 
+    "edge.exe",
+    "discord.exe",
+    "slack.exe",
+    "telegram.exe",
+    "whatsapp.exe",
+    "spotify.exe",
+    "youtube.exe",
+    "netflix.exe",
+    "steam.exe",
+    "minecraft.exe"
+  ],
+  "blacklisted_keywords": [
+    "youtube",
+    "facebook",
+    "twitter", 
+    "instagram",
+    "tiktok",
+    "reddit",
+    "discord",
+    "slack",
+    "netflix",
+    "spotify",
+    "gaming",
+    "game",
+    "entertainment"
+  ],
+  "use_claude": false,
+  "claude_api_key": null,
+  "use_firebase": true,
+  "firebase_config_path": "productivly-563e3-firebase-adminsdk-fbsvc-248154dfeb.json",
+  "firebase_collection": "distraction_events",
+  "gaze_threshold_y": 0.9,
+  "gaze_threshold_x_min": 0.1,
+  "gaze_threshold_x_max": 0.9,
+  "distraction_timeout": 2.0
+}
