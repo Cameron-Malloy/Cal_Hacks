@@ -1,23 +1,13 @@
 #!/usr/bin/env python3
 """
-Screen Gaze Tracking Script
-==========================
+Fresh Screen Gaze Tracking Script
+=================================
 
-This script tracks where your eyes are looking on the screen by:
-1. Detecting eye landmarks using MediaPipe
-2. Calculating gaze direction and screen coordinates
-3. Providing real-time visual feedback of gaze position
-4. Supporting calibration for accurate screen mapping
-
-Features:
-- Real-time gaze tracking on screen
-- Visual cursor showing gaze position
-- Calibration system for accuracy
-- Multiple screen support
-- Smooth gaze smoothing
+This version removes JSON persistence and always starts fresh.
+No loading/saving of calibration data - every run is completely fresh.
 
 Usage:
-    python screen_gaze_tracking.py
+    python fresh_screen_gaze_tracking.py
 """
 
 import cv2
@@ -26,8 +16,6 @@ import mediapipe as mp
 import math
 from typing import Tuple, List, Optional
 import time
-import json
-import os
 
 # Try to import pyautogui with fallback handling
 try:
@@ -39,8 +27,8 @@ except Exception as e:
     PYAUTOGUI_AVAILABLE = False
 
 
-class ScreenGazeTracker:
-    """Advanced screen gaze tracking using eye landmarks and calibration"""
+class FreshScreenGazeTracker:
+    """Fresh screen gaze tracking - no JSON persistence, always starts fresh"""
     
     def __init__(self):
         # Initialize MediaPipe face mesh
@@ -65,11 +53,10 @@ class ScreenGazeTracker:
         self.LEFT_IRIS_INDICES = [468, 469, 470, 471, 472]
         self.RIGHT_IRIS_INDICES = [473, 474, 475, 476, 477]
         
-        # Calibration data
+        # Calibration data (fresh, no loading)
         self.calibration_points = []
         self.calibration_data = {}
         self.is_calibrated = False
-        self.calibration_file = "gaze_calibration.json"
         
         # Screen information
         if PYAUTOGUI_AVAILABLE:
@@ -110,36 +97,16 @@ class ScreenGazeTracker:
             (0.5, 0.5),   # Center
         ]
         
-        # Load existing calibration if available
-        self.load_calibration()
-        
-    def load_calibration(self):
-        """Load calibration data from file"""
-        if os.path.exists(self.calibration_file):
-            try:
-                with open(self.calibration_file, 'r') as f:
-                    self.calibration_data = json.load(f)
-                    self.is_calibrated = True
-                    print("Loaded existing calibration data")
-            except Exception as e:
-                print(f"Error loading calibration: {e}")
-                self.is_calibrated = False
-    
-    def save_calibration(self):
-        """Save calibration data to file"""
-        try:
-            with open(self.calibration_file, 'w') as f:
-                json.dump(self.calibration_data, f, indent=2)
-            print("Calibration data saved")
-        except Exception as e:
-            print(f"Error saving calibration: {e}")
+        print("Fresh gaze tracker initialized - no calibration data loaded")
     
     def start_calibration(self):
         """Start calibration process"""
         self.calibration_mode = True
         self.calibration_step = 0
         self.calibration_points = []
-        print("Starting calibration...")
+        self.is_calibrated = False
+        self.calibration_data = {}
+        print("Starting fresh calibration...")
         print("Look at the red dot and press SPACE when ready")
     
     def add_calibration_point(self, eye_landmarks):
@@ -178,8 +145,8 @@ class ScreenGazeTracker:
             # Calculate linear mapping parameters
             self.calibration_data = self.calculate_calibration_mapping()
             self.is_calibrated = True
-            self.save_calibration()
             print("Calibration completed successfully!")
+            print("Calibration data calculated and stored in memory (not saved to file)")
         else:
             print("Not enough calibration points. Need at least 3 points.")
         
@@ -351,19 +318,33 @@ class ScreenGazeTracker:
         frame_x = int(target_x * w)
         frame_y = int(target_y * h)
         
-        # Draw target circle
-        cv2.circle(frame, (frame_x, frame_y), 20, (0, 0, 255), -1)
-        cv2.circle(frame, (frame_x, frame_y), 30, (0, 0, 255), 3)
+        # Draw larger, more visible target circle with pulsing effect
+        pulse = int(5 * math.sin(time.time() * 4))  # Pulsing effect
+        
+        # Draw outer ring
+        cv2.circle(frame, (frame_x, frame_y), 40 + pulse, (0, 0, 255), 4)
+        # Draw inner circle
+        cv2.circle(frame, (frame_x, frame_y), 25 + pulse, (0, 0, 255), -1)
+        # Draw center dot
+        cv2.circle(frame, (frame_x, frame_y), 8, (255, 255, 255), -1)
         
         # Draw crosshair
-        cv2.line(frame, (frame_x - 40, frame_y), (frame_x + 40, frame_y), (0, 0, 255), 2)
-        cv2.line(frame, (frame_x, frame_y - 40), (frame_x, frame_y + 40), (0, 0, 255), 2)
+        cv2.line(frame, (frame_x - 60, frame_y), (frame_x + 60, frame_y), (0, 0, 255), 3)
+        cv2.line(frame, (frame_x, frame_y - 60), (frame_x, frame_y + 60), (0, 0, 255), 3)
         
-        # Draw instruction text
-        cv2.putText(frame, f"Look at the red dot ({self.calibration_step + 1}/{len(self.calibration_targets)})", 
-                   (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-        cv2.putText(frame, "Press SPACE when ready", 
-                   (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+        # Draw instruction text with better visibility
+        cv2.putText(frame, f"CALIBRATION POINT {self.calibration_step + 1}/{len(self.calibration_targets)}", 
+                   (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 3)
+        cv2.putText(frame, "LOOK AT THE RED DOT", 
+                   (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 3)
+        cv2.putText(frame, "PRESS SPACEBAR WHEN READY", 
+                   (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 3)
+        
+        # Add countdown or status
+        if self.calibration_step < len(self.calibration_targets):
+            remaining = len(self.calibration_targets) - self.calibration_step
+            cv2.putText(frame, f"REMAINING: {remaining}", 
+                       (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
     
     def draw_gaze_cursor(self, frame, gaze_x: float, gaze_y: float):
         """Draw gaze cursor on frame"""
@@ -465,8 +446,9 @@ class ScreenGazeTracker:
 
 
 def main():
-    """Main function to run the screen gaze tracking application"""
-    print("Starting Screen Gaze Tracking Application...")
+    """Main function to run the fresh screen gaze tracking application"""
+    print("Starting Fresh Screen Gaze Tracking Application...")
+    print("This version starts completely fresh - no calibration data is loaded or saved.")
     print("Controls:")
     print("  'c' - Start calibration")
     print("  'r' - Reset calibration")
@@ -476,7 +458,7 @@ def main():
     print("  Gaze points are automatically saved every 5 seconds")
     
     # Initialize gaze tracker
-    tracker = ScreenGazeTracker()
+    tracker = FreshScreenGazeTracker()
     
     # Initialize camera
     cap = cv2.VideoCapture(0)
@@ -494,11 +476,15 @@ def main():
     print("Screen resolution:", tracker.screen_width, "x", tracker.screen_height)
     
     try:
+        frame_count = 0
+        print("Starting main loop...")
         while True:
             ret, frame = cap.read()
             if not ret:
                 print("Error: Could not read frame")
                 break
+            
+            frame_count += 1
             
             # Flip frame horizontally for mirror effect
             frame = cv2.flip(frame, 1)
@@ -509,20 +495,27 @@ def main():
             # Draw results
             tracker.draw_results(frame, results)
             
+            # Add frame counter for debugging
+            cv2.putText(frame, f"Frame: {frame_count}", (10, frame.shape[0] - 20), 
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+            
             # Display frame
-            cv2.imshow('Screen Gaze Tracking', frame)
+            cv2.imshow('Fresh Screen Gaze Tracking', frame)
+            
+            # Print debug info every 30 frames
+            if frame_count % 30 == 0:
+                print(f"Frame {frame_count}: Tracking={results['is_tracking']}, Gaze=({results['gaze_x']:.3f}, {results['gaze_y']:.3f})")
             
             # Handle key presses
             key = cv2.waitKey(1) & 0xFF
             if key == ord('q'):
+                print("Quit key pressed")
                 break
             elif key == ord('c'):
                 tracker.start_calibration()
             elif key == ord('r'):
                 tracker.is_calibrated = False
                 tracker.calibration_data = {}
-                if os.path.exists(tracker.calibration_file):
-                    os.remove(tracker.calibration_file)
                 print("Calibration reset")
             elif key == ord('t'):
                 tracker.clear_gaze_trail()
@@ -540,7 +533,7 @@ def main():
         # Cleanup
         cap.release()
         cv2.destroyAllWindows()
-        print("Screen gaze tracking application closed")
+        print("Fresh screen gaze tracking application closed")
 
 
 if __name__ == "__main__":
