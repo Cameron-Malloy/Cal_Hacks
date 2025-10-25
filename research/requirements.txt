@@ -1,0 +1,18 @@
+# Eye Tracking Dependencies
+# Core computer vision and machine learning libraries
+opencv-python>=4.8.0,<4.10.0
+mediapipe>=0.10.0,<0.11.0
+numpy>=1.21.0,<2.0.0
+pyautogui>=0.9.54
+
+# Alternative: If MediaPipe doesn't work with Python 3.13, try these versions:
+# mediapipe==0.10.7  # Known stable version
+# opencv-python==4.8.1.78  # Stable version
+
+# Optional: For more advanced eye tracking features
+# dlib>=19.24.0  # Uncomment if you want to use dlib for additional features
+# scipy>=1.10.0  # Uncomment for advanced mathematical operations
+
+# Development and testing (optional)
+# pytest>=7.0.0
+# matplotlib>=3.7.0  # For plotting eye tracking data
