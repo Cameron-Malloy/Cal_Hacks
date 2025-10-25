@@ -13,6 +13,10 @@ pyautogui>=0.9.54
 # dlib>=19.24.0  # Uncomment if you want to use dlib for additional features
 # scipy>=1.10.0  # Uncomment for advanced mathematical operations
 
+# Window Focus Logger Dependencies
+pywin32>=306  # Windows API access
+psutil>=5.9.0  # Process and system utilities
+
 # Development and testing (optional)
 # pytest>=7.0.0
 # matplotlib>=3.7.0  # For plotting eye tracking data
