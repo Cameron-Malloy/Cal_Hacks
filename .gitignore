@@ -1,5 +1,13 @@
 /venv
+venv/
+**/venv/
 /.env
+**/.env
 /research/__pycache__
+**/__pycache__/
 /final_python_script/firebase-service-account.json
 /final_python_script/.env
+*.pyc
+.DS_Store
+node_modules/
+.next/
