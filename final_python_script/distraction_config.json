@@ -28,8 +28,6 @@
     "game",
     "entertainment"
   ],
-  "use_claude": false,
-  "claude_api_key": null,
   "use_firebase": true,
   "firebase_config_path": "productivly-563e3-firebase-adminsdk-fbsvc-7d29118195.json",
   "firebase_collection": "appAccessEvents",
