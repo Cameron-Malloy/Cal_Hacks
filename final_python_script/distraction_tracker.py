@@ -152,15 +152,22 @@ class DistractionEvent:
 class DistractionTracker:
     """Main distraction tracking system combining gaze and window monitoring"""
     
-    def __init__(self, config_file: str = "distraction_config.json"):
+    def __init__(self, config_file: str = "distraction_config.json", session_id: Optional[str] = None, user_id: Optional[str] = None):
+        # Store user_id (defaults to config or 'demo-user')
+        self.user_id = user_id
+
         # Initialize gaze tracker
         self.gaze_tracker = FreshScreenGazeTracker()
-        
+
         # Initialize window logger
         self.window_logger = WindowFocusLogger(log_file="distraction_events.log", log_format="json")
-        
+
         # Configuration
         self.config = self.load_config(config_file)
+
+        # Set user_id from config if not provided
+        if self.user_id is None:
+            self.user_id = self.config.get('demo_user_id', 'demo-user')
         
         # Distraction detection settings
         self.gaze_threshold_y = self.config.get('gaze_threshold_y', 0.8)
@@ -257,8 +264,13 @@ class DistractionTracker:
         else:
             print(f"[FIREBASE] Firebase disabled - Available: {FIREBASE_AVAILABLE}, Config enabled: {self.config.get('use_firebase', False)}")
         
-        self.start_time = time.time()
-        self.session_id = "session_" + str(self.start_time)
+        # Use provided session_id or generate a new one
+        if session_id:
+            self.session_id = session_id
+            self.start_time = time.time()
+        else:
+            self.start_time = time.time()
+            self.session_id = "session_" + str(self.start_time)
         
         # LangChain Claude client for structured output
         self.langchain_claude = None
@@ -689,13 +701,10 @@ class DistractionTracker:
             print(f"[FIREBASE] Collection name: {collection_name}")
             print(f"[FIREBASE] Session ID: {self.session_id}")
             print(f"[FIREBASE] Event ID: {event.id}")
-            
-            # Get demo user ID from config
-            demo_user_id = self.config.get('demo_user_id', 'demo-user')
-            
-            # Build document reference
-            doc_ref = self.firestore_client.collection('users').document(demo_user_id).collection('sessions').document(self.session_id).collection(collection_name).document(event.id)
-            print(f"[FIREBASE] Document reference path: users/{demo_user_id}/sessions/{self.session_id}/{collection_name}/{event.id}")
+
+            # Build document reference using self.user_id
+            doc_ref = self.firestore_client.collection('users').document(self.user_id).collection('sessions').document(self.session_id).collection(collection_name).document(event.id)
+            print(f"[FIREBASE] Document reference path: users/{self.user_id}/sessions/{self.session_id}/{collection_name}/{event.id}")
             
             # Convert event to dict and ensure all fields are serializable
             print("[FIREBASE] Converting event to dictionary...")
@@ -744,13 +753,10 @@ class DistractionTracker:
                 'blacklisted_keywords': self.blacklisted_keywords,
                 'firebase_timestamp': self.get_pst_time()
             }
-            
-            # Get demo user ID from config
-            demo_user_id = self.config.get('demo_user_id', 'demo-user')
-            
-            # Build session document reference
-            session_doc_ref = self.firestore_client.collection('users').document(demo_user_id).collection('sessions').document(self.session_id)
-            print(f"[FIREBASE] Session document path: users/{demo_user_id}/sessions/{self.session_id}")
+
+            # Build session document reference using self.user_id
+            session_doc_ref = self.firestore_client.collection('users').document(self.user_id).collection('sessions').document(self.session_id)
+            print(f"[FIREBASE] Session document path: users/{self.user_id}/sessions/{self.session_id}")
             
             # Write session data
             session_doc_ref.set(session_data)
@@ -804,12 +810,9 @@ class DistractionTracker:
                 'firebase_timestamp': self.get_pst_time()
             }
             
-            # Get demo user ID from config
-            demo_user_id = self.config.get('demo_user_id', 'demo-user')
-            
-            # Build session document reference
-            session_doc_ref = self.firestore_client.collection('users').document(demo_user_id).collection('sessions').document(self.session_id)
-            print(f"[FIREBASE] Updating session stats at: users/{demo_user_id}/sessions/{self.session_id}")
+            # Build session document reference using self.user_id
+            session_doc_ref = self.firestore_client.collection('users').document(self.user_id).collection('sessions').document(self.session_id)
+            print(f"[FIREBASE] Updating session stats at: users/{self.user_id}/sessions/{self.session_id}")
             
             # Update session document with stats
             session_doc_ref.update(stats_data)
@@ -857,12 +860,9 @@ class DistractionTracker:
                 'firebase_timestamp': self.get_pst_time()
             }
             
-            # Get demo user ID from config
-            demo_user_id = self.config.get('demo_user_id', 'demo-user')
-            
-            # Build session document reference
-            session_doc_ref = self.firestore_client.collection('users').document(demo_user_id).collection('sessions').document(self.session_id)
-            print(f"[FIREBASE] Final session update at: users/{demo_user_id}/sessions/{self.session_id}")
+            # Build session document reference using self.user_id
+            session_doc_ref = self.firestore_client.collection('users').document(self.user_id).collection('sessions').document(self.session_id)
+            print(f"[FIREBASE] Final session update at: users/{self.user_id}/sessions/{self.session_id}")
             
             # Update session document with end data
             session_doc_ref.update(end_data)
@@ -1318,7 +1318,19 @@ class DistractionTracker:
             cv2.destroyWindow('Calibration Window')
         
         return self.gaze_tracker.is_calibrated
-    
+
+    def stop(self):
+        """Stop the distraction tracking system gracefully"""
+        print("\n[STOP] Stopping distraction tracking system...")
+        self.running = False
+
+        # Push session end data to Firebase
+        if self.firestore_client:
+            print("[FIREBASE] Pushing session end data...")
+            self.push_session_end_data()
+
+        print("[STOP] Distraction tracker stopped successfully")
+
     def run(self):
         """Run the distraction tracking system"""
         print("=" * 60)
