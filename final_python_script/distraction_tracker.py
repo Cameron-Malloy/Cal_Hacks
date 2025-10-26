@@ -788,6 +788,152 @@ class DistractionTracker:
             self.logger.error(f"Firebase sync error for event {event.id}: {e}")
             # Don't re-raise the exception to prevent worker thread crashes
     
+    def push_session_start_data(self):
+        """Push session start data to Firebase"""
+        if not self.firestore_client:
+            print("[FIREBASE] Firebase client not available - skipping session start data")
+            return
+        
+        try:
+            print("[FIREBASE] Pushing session start data...")
+            
+            # Create session document data
+            session_data = {
+                'session_id': self.session_id,
+                'start_time': self.get_pst_time(),
+                'status': 'active',
+                'gaze_threshold_y': self.gaze_threshold_y,
+                'gaze_threshold_x_min': self.gaze_threshold_x_min,
+                'gaze_threshold_x_max': self.gaze_threshold_x_max,
+                'distraction_timeout': self.distraction_timeout,
+                'blacklisted_apps': self.blacklisted_apps,
+                'blacklisted_keywords': self.blacklisted_keywords,
+                'firebase_timestamp': self.get_pst_time()
+            }
+            
+            # Build session document reference
+            session_doc_ref = self.firestore_client.collection('users').document('cammal').collection('sessions').document(self.session_id)
+            print(f"[FIREBASE] Session document path: users/cammal/sessions/{self.session_id}")
+            
+            # Write session data
+            session_doc_ref.set(session_data)
+            print(f"SUCCESS: Session start data pushed to Firebase")
+            self.logger.info(f"SUCCESS: Session start data pushed to Firebase")
+            
+        except Exception as e:
+            print(f"[ERROR] Session start data push failed: {e}")
+            self.logger.error(f"Session start data push error: {e}")
+    
+    def push_session_stats_update(self):
+        """Push current session stats to Firebase"""
+        if not self.firestore_client:
+            print("[FIREBASE] Firebase client not available - skipping session stats update")
+            return
+        
+        try:
+            print("[FIREBASE] Pushing session stats update...")
+            
+            # Calculate current stats
+            total_events = len(self.distraction_events)
+            active_events = len(self.active_distractions)
+            resolved_events = sum(1 for event in self.distraction_events if event.status == DistractionStatus.RESOLVED)
+            
+            gaze_distractions = sum(1 for event in self.distraction_events if event.type == DistractionType.GAZE_DISTRACTION)
+            window_distractions = sum(1 for event in self.distraction_events if event.type == DistractionType.WINDOW_DISTRACTION)
+            
+            # Calculate total distraction time
+            total_distraction_time = 0
+            for event in self.distraction_events:
+                if event.status == DistractionStatus.RESOLVED and event.end_time:
+                    duration = (event.end_time - event.start_time).total_seconds()
+                    total_distraction_time += duration
+            
+            # Calculate session duration
+            session_duration = time.time() - self.start_time
+            
+            # Create stats update data
+            stats_data = {
+                'last_updated': self.get_pst_time(),
+                'session_duration_seconds': session_duration,
+                'total_events': total_events,
+                'active_events': active_events,
+                'resolved_events': resolved_events,
+                'gaze_distractions': gaze_distractions,
+                'window_distractions': window_distractions,
+                'total_distraction_time_seconds': total_distraction_time,
+                'current_gaze_x': self.current_gaze_x,
+                'current_gaze_y': self.current_gaze_y,
+                'is_gaze_tracking': self.is_gaze_tracking,
+                'current_window_title': self.current_window_info.get('window_title', 'None') if self.current_window_info else 'None',
+                'current_process_name': self.current_window_info.get('process_name', 'None') if self.current_window_info else 'None',
+                'firebase_timestamp': self.get_pst_time()
+            }
+            
+            # Build session document reference
+            session_doc_ref = self.firestore_client.collection('users').document('cammal').collection('sessions').document(self.session_id)
+            print(f"[FIREBASE] Updating session stats at: users/cammal/sessions/{self.session_id}")
+            
+            # Update session document with stats
+            session_doc_ref.update(stats_data)
+            print(f"SUCCESS: Session stats updated in Firebase")
+            self.logger.info(f"SUCCESS: Session stats updated in Firebase")
+            
+        except Exception as e:
+            print(f"[ERROR] Session stats update failed: {e}")
+            self.logger.error(f"Session stats update error: {e}")
+    
+    def push_session_end_data(self):
+        """Push session end data to Firebase"""
+        if not self.firestore_client:
+            print("[FIREBASE] Firebase client not available - skipping session end data")
+            return
+        
+        try:
+            print("[FIREBASE] Pushing session end data...")
+            
+            # Calculate final stats
+            total_events = len(self.distraction_events)
+            resolved_events = sum(1 for event in self.distraction_events if event.status == DistractionStatus.RESOLVED)
+            
+            gaze_distractions = sum(1 for event in self.distraction_events if event.type == DistractionType.GAZE_DISTRACTION)
+            window_distractions = sum(1 for event in self.distraction_events if event.type == DistractionType.WINDOW_DISTRACTION)
+            
+            # Calculate total distraction time
+            total_distraction_time = 0
+            for event in self.distraction_events:
+                if event.status == DistractionStatus.RESOLVED and event.end_time:
+                    duration = (event.end_time - event.start_time).total_seconds()
+                    total_distraction_time += duration
+            
+            # Calculate session duration
+            session_duration = time.time() - self.start_time
+            
+            # Create session end data
+            end_data = {
+                'end_time': self.get_pst_time(),
+                'status': 'completed',
+                'session_duration_seconds': session_duration,
+                'total_events': total_events,
+                'resolved_events': resolved_events,
+                'gaze_distractions': gaze_distractions,
+                'window_distractions': window_distractions,
+                'total_distraction_time_seconds': total_distraction_time,
+                'firebase_timestamp': self.get_pst_time()
+            }
+            
+            # Build session document reference
+            session_doc_ref = self.firestore_client.collection('users').document('cammal').collection('sessions').document(self.session_id)
+            print(f"[FIREBASE] Final session update at: users/cammal/sessions/{self.session_id}")
+            
+            # Update session document with end data
+            session_doc_ref.update(end_data)
+            print(f"SUCCESS: Session end data pushed to Firebase")
+            self.logger.info(f"SUCCESS: Session end data pushed to Firebase")
+            
+        except Exception as e:
+            print(f"[ERROR] Session end data push failed: {e}")
+            self.logger.error(f"Session end data push error: {e}")
+    
     def run_async_logging_worker(self):
         """Run async logging worker in separate thread"""
         def worker():
@@ -1286,6 +1432,11 @@ class DistractionTracker:
         
         self.running = True
         
+        # Push session start data to Firebase
+        if self.firestore_client:
+            print("[FIREBASE] Pushing session start data...")
+            self.push_session_start_data()
+        
         # Start async workers
         logging_worker = self.run_async_logging_worker()
         firebase_worker = self.run_firebase_worker()
@@ -1302,6 +1453,7 @@ class DistractionTracker:
         
         try:
             # Main monitoring loop
+            last_stats_update = time.time()
             while self.running:
                 time.sleep(1)
                 
@@ -1312,12 +1464,24 @@ class DistractionTracker:
                     print(f"Status: Gaze=({self.current_gaze_x:.3f}, {self.current_gaze_y:.3f}), "
                           f"Window='{self.current_window_info.get('window_title', 'None') if self.current_window_info else 'None'}', "
                           f"Active={active_count}, Total={total_count}")
+                
+                # Update session stats every 30 seconds
+                if time.time() - last_stats_update >= 30:
+                    if self.firestore_client:
+                        print("[FIREBASE] Updating session stats...")
+                        self.push_session_stats_update()
+                    last_stats_update = time.time()
         
         except KeyboardInterrupt:
             print("\nDistraction monitoring stopped by user")
         
         finally:
             self.running = False
+            
+            # Push session end data to Firebase
+            if self.firestore_client:
+                print("[FIREBASE] Pushing session end data...")
+                self.push_session_end_data()
             
             # Wait for queues to empty with timeout
             print("Waiting for async operations to complete...")
