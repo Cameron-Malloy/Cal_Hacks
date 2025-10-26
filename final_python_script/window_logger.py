@@ -1,7 +1,7 @@
 """
-Window Focus Logger for Windows
+Window Focus Logger for macOS/Windows
 
-This script monitors and logs the currently focused window on Windows.
+This script monitors and logs the currently focused window.
 It tracks window titles, process names, and timestamps of focus changes.
 """
 
@@ -11,14 +11,35 @@ import json
 from datetime import datetime
 from typing import Optional, Dict, Any
 import sys
+import platform
 
-try:
-    import win32gui
-    import win32process
-    import psutil
-except ImportError:
-    print("Required packages not found. Please install them using:")
-    print("pip install pywin32 psutil")
+# Platform-specific imports
+if platform.system() == "Darwin":  # macOS
+    try:
+        from Quartz import (
+            CGWindowListCopyWindowInfo,
+            kCGWindowListOptionOnScreenOnly,
+            kCGNullWindowID,
+        )
+        from AppKit import NSWorkspace
+        import psutil
+        PLATFORM = "macOS"
+    except ImportError:
+        print("Required packages not found. Please install them using:")
+        print("pip install pyobjc-framework-Quartz pyobjc-framework-AppKit psutil")
+        sys.exit(1)
+elif platform.system() == "Windows":
+    try:
+        import win32gui
+        import win32process
+        import psutil
+        PLATFORM = "Windows"
+    except ImportError:
+        print("Required packages not found. Please install them using:")
+        print("pip install pywin32 psutil")
+        sys.exit(1)
+else:
+    print(f"Unsupported platform: {platform.system()}")
     sys.exit(1)
 
 

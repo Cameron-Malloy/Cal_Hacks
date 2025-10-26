@@ -37,7 +37,13 @@ import uuid
 
 # Import our existing modules
 from fresh_screen_gaze_tracking import FreshScreenGazeTracker
-from window_logger import WindowFocusLogger
+
+# Import platform-specific window logger
+import platform
+if platform.system() == "Darwin":  # macOS
+    from window_logger_macos import WindowFocusLogger
+else:
+    from window_logger import WindowFocusLogger
 
 # Claude API integration
 try:
@@ -757,9 +763,12 @@ class DistractionTracker:
             print(f"[FIREBASE] Session ID: {self.session_id}")
             print(f"[FIREBASE] Event ID: {event.id}")
             
+            # Get demo user ID from config
+            demo_user_id = self.config.get('demo_user_id', 'demo-user')
+            
             # Build document reference
-            doc_ref = self.firestore_client.collection('users').document('cammal').collection('sessions').document(self.session_id).collection(collection_name).document(event.id)
-            print(f"[FIREBASE] Document reference path: users/cammal/sessions/{self.session_id}/{collection_name}/{event.id}")
+            doc_ref = self.firestore_client.collection('users').document(demo_user_id).collection('sessions').document(self.session_id).collection(collection_name).document(event.id)
+            print(f"[FIREBASE] Document reference path: users/{demo_user_id}/sessions/{self.session_id}/{collection_name}/{event.id}")
             
             # Convert event to dict and ensure all fields are serializable
             print("[FIREBASE] Converting event to dictionary...")
@@ -811,9 +820,12 @@ class DistractionTracker:
                 'firebase_timestamp': self.get_pst_time()
             }
             
+            # Get demo user ID from config
+            demo_user_id = self.config.get('demo_user_id', 'demo-user')
+            
             # Build session document reference
-            session_doc_ref = self.firestore_client.collection('users').document('cammal').collection('sessions').document(self.session_id)
-            print(f"[FIREBASE] Session document path: users/cammal/sessions/{self.session_id}")
+            session_doc_ref = self.firestore_client.collection('users').document(demo_user_id).collection('sessions').document(self.session_id)
+            print(f"[FIREBASE] Session document path: users/{demo_user_id}/sessions/{self.session_id}")
             
             # Write session data
             session_doc_ref.set(session_data)
@@ -869,9 +881,12 @@ class DistractionTracker:
                 'firebase_timestamp': self.get_pst_time()
             }
             
+            # Get demo user ID from config
+            demo_user_id = self.config.get('demo_user_id', 'demo-user')
+            
             # Build session document reference
-            session_doc_ref = self.firestore_client.collection('users').document('cammal').collection('sessions').document(self.session_id)
-            print(f"[FIREBASE] Updating session stats at: users/cammal/sessions/{self.session_id}")
+            session_doc_ref = self.firestore_client.collection('users').document(demo_user_id).collection('sessions').document(self.session_id)
+            print(f"[FIREBASE] Updating session stats at: users/{demo_user_id}/sessions/{self.session_id}")
             
             # Update session document with stats
             session_doc_ref.update(stats_data)
@@ -921,9 +936,12 @@ class DistractionTracker:
                 'firebase_timestamp': self.get_pst_time()
             }
             
+            # Get demo user ID from config
+            demo_user_id = self.config.get('demo_user_id', 'demo-user')
+            
             # Build session document reference
-            session_doc_ref = self.firestore_client.collection('users').document('cammal').collection('sessions').document(self.session_id)
-            print(f"[FIREBASE] Final session update at: users/cammal/sessions/{self.session_id}")
+            session_doc_ref = self.firestore_client.collection('users').document(demo_user_id).collection('sessions').document(self.session_id)
+            print(f"[FIREBASE] Final session update at: users/{demo_user_id}/sessions/{self.session_id}")
             
             # Update session document with end data
             session_doc_ref.update(end_data)

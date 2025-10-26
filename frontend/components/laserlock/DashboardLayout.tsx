@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { ProfileMenu } from "./ProfileMenu";
 import { Flame } from "lucide-react";
@@ -16,6 +16,22 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [userEmail, setUserEmail] = useState("");
+  const [mounted, setMounted] = useState(false);
+  
+  // Generate stable particle positions to avoid hydration mismatch
+  const particles = useMemo(() => {
+    return Array.from({ length: 20 }).map((_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      duration: 3 + Math.random() * 2,
+      delay: Math.random() * 2,
+    }));
+  }, []);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     // Check if user is logged in
@@ -54,7 +70,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     { label: "Report", path: "/report" },
     { label: "Leaderboard", path: "/leaderboard" },
     { label: "Challenges", path: "/challenges" },
-    { label: "Insights", path: "/insights" },
     { label: "Settings", path: "/settings" },
   ];
 
@@ -62,22 +77,22 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/10">
       {/* Animated Background Particles */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 20 }).map((_, i) => (
+        {mounted && particles.map((particle) => (
           <motion.div
-            key={i}
+            key={particle.id}
             className="absolute w-1 h-1 bg-primary/30 rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${particle.left}%`,
+              top: `${particle.top}%`,
             }}
             animate={{
               y: [0, -30, 0],
               opacity: [0.2, 0.6, 0.2],
             }}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: particle.duration,
               repeat: Infinity,
-              delay: Math.random() * 2,
+              delay: particle.delay,
             }}
           />
         ))}

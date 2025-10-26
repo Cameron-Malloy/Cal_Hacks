@@ -1,33 +1,191 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { GlassCard } from "./GlassCard";
 import { Button } from "../ui/button";
-import { Share2, Save, Trophy } from "lucide-react";
+import { Share2, Save, Trophy, Clock, Eye, Monitor } from "lucide-react";
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
+import { db } from "@/lib/firebase";
+import { collection, query, orderBy, limit, getDocs, where } from "firebase/firestore";
 
-const productivityData = [
-  { name: "Productive", value: 75, color: "#22d3ee" },
-  { name: "Unproductive", value: 15, color: "#ef4444" },
-  { name: "Neutral", value: 10, color: "#94a3b8" },
-];
-
-const appTimeData = [
-  { app: "Figma", time: 85 },
-  { app: "VS Code", time: 65 },
-  { app: "Slack", time: 25 },
-  { app: "Chrome", time: 45 },
-  { app: "Notion", time: 30 },
-];
-
-const focusTimelineData = [
-  { time: "9:00", focus: 20, distraction: 0 },
-  { time: "9:30", focus: 80, distraction: 0 },
-  { time: "10:00", focus: 90, distraction: 0 },
-  { time: "10:30", focus: 40, distraction: 1 },
-  { time: "11:00", focus: 95, distraction: 0 },
-  { time: "11:30", focus: 85, distraction: 0 },
-  { time: "12:00", focus: 30, distraction: 1 },
-];
+interface SessionStats {
+  focusScore: number;
+  totalDuration: number;
+  gazeDistractions: number;
+  windowDistractions: number;
+  totalDistractions: number;
+  longestStreak: number;
+  productivityData: Array<{ name: string; value: number; color: string }>;
+  appTimeData: Array<{ app: string; time: number }>;
+  focusTimelineData: Array<{ time: string; focus: number; distraction: number }>;
+}
 
 export function SessionReport() {
+  const [stats, setStats] = useState<SessionStats | null>(null);
+  const [loading, setLoading] = useState(true);
+  const userId = "demo-user";
+
+  useEffect(() => {
+    const fetchSessionStats = async () => {
+      try {
+        // Get the most recent session
+        const sessionsRef = collection(db, "users", userId, "sessions");
+        const sessionsQuery = query(sessionsRef, orderBy("start_time", "desc"), limit(1));
+        const sessionsSnap = await getDocs(sessionsQuery);
+
+        if (sessionsSnap.empty) {
+          setStats(getEmptyStats());
+          setLoading(false);
+          return;
+        }
+
+        const sessionDoc = sessionsSnap.docs[0];
+        const sessionData = sessionDoc.data();
+        const sessionId = sessionDoc.id;
+
+        // Get all distractions for this session
+        const distractionsRef = collection(db, "users", userId, "sessions", sessionId, "appAccessEvents");
+        const distractionsSnap = await getDocs(distractionsRef);
+
+        const distractions: any[] = [];
+        distractionsSnap.forEach((doc) => {
+          distractions.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Calculate stats
+        const gazeCount = distractions.filter(d => d.type === "gaze_distraction").length;
+        const windowCount = distractions.filter(d => d.type === "window_distraction").length;
+        const totalCount = distractions.length;
+
+        // Calculate total distraction time
+        let totalDistractionTime = 0;
+        distractions.forEach(event => {
+          if (event.start_time && event.end_time) {
+            const start = event.start_time.toDate?.() || new Date(event.start_time);
+            const end = event.end_time.toDate?.() || new Date(event.end_time);
+            totalDistractionTime += (end.getTime() - start.getTime()) / 1000;
+          }
+        });
+
+        // Calculate session duration
+        const sessionDuration = sessionData.session_duration_seconds || 0;
+        const focusScore = sessionDuration > 0
+          ? Math.round(((sessionDuration - totalDistractionTime) / sessionDuration) * 100)
+          : 100;
+
+        // Calculate productivity distribution
+        const productiveTime = sessionDuration - totalDistractionTime;
+        const productivityData = [
+          { name: "Focused", value: Math.round((productiveTime / sessionDuration) * 100), color: "#22d3ee" },
+          { name: "Distracted", value: Math.round((totalDistractionTime / sessionDuration) * 100), color: "#ef4444" },
+        ];
+
+        // Group window distractions by app
+        const appCounts: { [key: string]: number } = {};
+        distractions
+          .filter(d => d.type === "window_distraction" && d.window_data)
+          .forEach(event => {
+            const appName = event.window_data.process_name || "Unknown";
+            appCounts[appName] = (appCounts[appName] || 0) + 1;
+          });
+
+        const appTimeData = Object.entries(appCounts)
+          .map(([app, count]) => ({
+            app: app.replace('.exe', '').replace('.app', ''),
+            time: count
+          }))
+          .sort((a, b) => b.time - a.time)
+          .slice(0, 5);
+
+        // Create timeline data (last 10 distractions)
+        const sortedDistractions = distractions
+          .filter(d => d.start_time)
+          .sort((a, b) => {
+            const aTime = a.start_time.toDate?.() || new Date(a.start_time);
+            const bTime = b.start_time.toDate?.() || new Date(b.start_time);
+            return aTime.getTime() - bTime.getTime();
+          })
+          .slice(-10);
+
+        const focusTimelineData = sortedDistractions.map((event, index) => {
+          const eventTime = event.start_time.toDate?.() || new Date(event.start_time);
+          return {
+            time: eventTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+            focus: Math.max(0, 100 - (index + 1) * 10),
+            distraction: 1
+          };
+        });
+
+        // Calculate longest streak (time between distractions)
+        let longestStreak = 0;
+        if (sortedDistractions.length > 1) {
+          for (let i = 1; i < sortedDistractions.length; i++) {
+            const prev = sortedDistractions[i - 1].start_time.toDate?.() || new Date(sortedDistractions[i - 1].start_time);
+            const curr = sortedDistractions[i].start_time.toDate?.() || new Date(sortedDistractions[i].start_time);
+            const streakMinutes = (curr.getTime() - prev.getTime()) / 1000 / 60;
+            longestStreak = Math.max(longestStreak, streakMinutes);
+          }
+        }
+
+        setStats({
+          focusScore,
+          totalDuration: Math.round(sessionDuration / 60), // Convert to minutes
+          gazeDistractions: gazeCount,
+          windowDistractions: windowCount,
+          totalDistractions: totalCount,
+          longestStreak: Math.round(longestStreak),
+          productivityData,
+          appTimeData,
+          focusTimelineData: focusTimelineData.length > 0 ? focusTimelineData : [{ time: "Start", focus: 100, distraction: 0 }]
+        });
+
+      } catch (error) {
+        console.error("Error fetching session stats:", error);
+        setStats(getEmptyStats());
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSessionStats();
+  }, [userId]);
+
+  const getEmptyStats = (): SessionStats => ({
+    focusScore: 0,
+    totalDuration: 0,
+    gazeDistractions: 0,
+    windowDistractions: 0,
+    totalDistractions: 0,
+    longestStreak: 0,
+    productivityData: [
+      { name: "Focused", value: 100, color: "#22d3ee" },
+      { name: "Distracted", value: 0, color: "#ef4444" },
+    ],
+    appTimeData: [],
+    focusTimelineData: [{ time: "Start", focus: 100, distraction: 0 }]
+  });
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <GlassCard className="text-center py-12">
+          <p className="text-muted-foreground">Loading session report...</p>
+        </GlassCard>
+      </div>
+    );
+  }
+
+  if (!stats) {
+    return (
+      <div className="space-y-6">
+        <GlassCard className="text-center py-12">
+          <p className="text-muted-foreground">No session data available</p>
+          <p className="text-sm text-muted-foreground mt-2">Complete a focus session to see your report!</p>
+        </GlassCard>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Score Header */}
@@ -35,15 +193,50 @@ export function SessionReport() {
         <div className="py-8">
           <p className="text-muted-foreground mb-2">Session Focus Score</p>
           <div className="text-7xl bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent mb-4">
-            1847
+            {stats.focusScore}%
           </div>
           <div className="flex items-center justify-center gap-2">
             <div className="px-4 py-2 rounded-full bg-secondary/20 text-secondary">
-              A+ Performance
+              {stats.focusScore >= 90 ? "A+ Performance" : 
+               stats.focusScore >= 80 ? "A Performance" :
+               stats.focusScore >= 70 ? "B Performance" :
+               stats.focusScore >= 60 ? "C Performance" : "Keep Practicing!"}
             </div>
           </div>
         </div>
       </GlassCard>
+
+      {/* Highlights */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <GlassCard className="text-center">
+          <div className="flex items-center justify-center mb-2">
+            <Clock className="w-5 h-5 text-primary" />
+          </div>
+          <p className="text-muted-foreground text-sm mb-2">Total Minutes</p>
+          <p className="text-3xl text-primary">{stats.totalDuration}</p>
+        </GlassCard>
+        <GlassCard className="text-center">
+          <div className="flex items-center justify-center mb-2">
+            <Eye className="w-5 h-5 text-secondary" />
+          </div>
+          <p className="text-muted-foreground text-sm mb-2">Gaze Distractions</p>
+          <p className="text-3xl text-secondary">{stats.gazeDistractions}</p>
+        </GlassCard>
+        <GlassCard className="text-center">
+          <div className="flex items-center justify-center mb-2">
+            <Monitor className="w-5 h-5 text-accent" />
+          </div>
+          <p className="text-muted-foreground text-sm mb-2">Window Distractions</p>
+          <p className="text-3xl text-accent">{stats.windowDistractions}</p>
+        </GlassCard>
+        <GlassCard className="text-center">
+          <div className="flex items-center justify-center mb-2">
+            <Trophy className="w-5 h-5 text-primary" />
+          </div>
+          <p className="text-muted-foreground text-sm mb-2">Longest Streak</p>
+          <p className="text-3xl text-primary">{stats.longestStreak} min</p>
+        </GlassCard>
+      </div>
 
       {/* Charts Grid */}
       <div className="grid md:grid-cols-2 gap-6">
@@ -53,16 +246,16 @@ export function SessionReport() {
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
-                data={productivityData}
+                data={stats.productivityData}
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                label={({ name, value }) => `${name} ${value}%`}
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
               >
-                {productivityData.map((entry, index) => (
+                {stats.productivityData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
@@ -77,31 +270,37 @@ export function SessionReport() {
           </ResponsiveContainer>
         </GlassCard>
 
-        {/* Bar Chart - Time per App */}
+        {/* Bar Chart - Distracting Apps */}
         <GlassCard>
-          <h3 className="mb-4 text-secondary">Time Per Application</h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={appTimeData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(167,139,250,0.1)" />
-              <XAxis dataKey="app" stroke="#94a3b8" />
-              <YAxis stroke="#94a3b8" />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "rgba(15, 23, 42, 0.9)",
-                  border: "1px solid rgba(167,139,250,0.3)",
-                  borderRadius: "8px",
-                }}
-              />
-              <Bar dataKey="time" fill="#a78bfa" radius={[8, 8, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+          <h3 className="mb-4 text-secondary">Most Distracting Applications</h3>
+          {stats.appTimeData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart data={stats.appTimeData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(167,139,250,0.1)" />
+                <XAxis dataKey="app" stroke="#94a3b8" />
+                <YAxis stroke="#94a3b8" />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "rgba(15, 23, 42, 0.9)",
+                    border: "1px solid rgba(167,139,250,0.3)",
+                    borderRadius: "8px",
+                  }}
+                />
+                <Bar dataKey="time" fill="#a78bfa" radius={[8, 8, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="h-[250px] flex items-center justify-center text-muted-foreground">
+              No window distractions recorded
+            </div>
+          )}
         </GlassCard>
 
         {/* Line Chart - Focus Timeline */}
         <GlassCard className="md:col-span-2">
-          <h3 className="mb-4 text-accent">Focus Timeline (Distractions & Recoveries)</h3>
+          <h3 className="mb-4 text-accent">Distraction Timeline</h3>
           <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={focusTimelineData}>
+            <LineChart data={stats.focusTimelineData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(167,139,250,0.1)" />
               <XAxis dataKey="time" stroke="#94a3b8" />
               <YAxis stroke="#94a3b8" />
@@ -112,50 +311,11 @@ export function SessionReport() {
                   borderRadius: "8px",
                 }}
               />
-              <Line type="monotone" dataKey="focus" stroke="#8b5cf6" strokeWidth={3} />
+              <Line type="monotone" dataKey="focus" stroke="#8b5cf6" strokeWidth={3} name="Focus Level" />
             </LineChart>
           </ResponsiveContainer>
         </GlassCard>
       </div>
-
-      {/* Highlights */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <GlassCard className="text-center">
-          <p className="text-muted-foreground text-sm mb-2">Longest Streak</p>
-          <p className="text-3xl text-primary">47 min</p>
-        </GlassCard>
-        <GlassCard className="text-center">
-          <p className="text-muted-foreground text-sm mb-2">Break Efficiency</p>
-          <p className="text-3xl text-secondary">92%</p>
-        </GlassCard>
-        <GlassCard className="text-center">
-          <p className="text-muted-foreground text-sm mb-2">Trigger Count</p>
-          <p className="text-3xl text-accent">2</p>
-        </GlassCard>
-        <GlassCard className="text-center">
-          <p className="text-muted-foreground text-sm mb-2">Total Minutes</p>
-          <p className="text-3xl text-primary">154</p>
-        </GlassCard>
-      </div>
-
-      {/* Heatmap Placeholder */}
-      <GlassCard>
-        <h3 className="mb-4 text-secondary">Eye Activity Intensity Heatmap</h3>
-        <div className="grid grid-cols-8 gap-2">
-          {Array.from({ length: 64 }).map((_, i) => {
-            const intensity = Math.random();
-            const bgColor =
-              intensity > 0.7
-                ? "bg-secondary"
-                : intensity > 0.4
-                ? "bg-primary"
-                : intensity > 0.2
-                ? "bg-accent/50"
-                : "bg-muted";
-            return <div key={i} className={`aspect-square rounded ${bgColor}`} />;
-          })}
-        </div>
-      </GlassCard>
 
       {/* Action Buttons */}
       <div className="flex flex-wrap gap-4 justify-center">
