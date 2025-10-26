@@ -631,3 +631,20 @@ google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be
 2025-10-25 16:49:17,375 - INFO - SUCCESS: Synced event 9580c8a0-ec90-4bc5-8ddc-d6596382719f to Firebase collection 'appAccessEvents'
 2025-10-25 16:49:23,684 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.000 < 0.1)
 2025-10-25 16:49:23,804 - INFO - SUCCESS: Synced event d075a7cc-c477-4549-a40b-26c2543f28e0 to Firebase collection 'appAccessEvents'
+2025-10-25 17:43:11,523 - INFO - SUCCESS: Session start data pushed to Firebase
+2025-10-25 17:43:11,523 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: (17) i destroyed the just cause 3 100% world record - youtube — zen browser
+2025-10-25 17:43:11,523 - INFO - WINDOW SWITCH: '(17) I DESTROYED the Just Cause 3 100% World Record - YouTube — Zen Browser'  (Category: unknown)
+2025-10-25 17:43:11,665 - INFO - SUCCESS: Synced event 1e38f4c7-ac42-4b7a-adf0-4fc52055fc47 to Firebase collection 'appAccessEvents'
+2025-10-25 17:43:16,530 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 5.0s
+2025-10-25 17:43:16,667 - INFO - SUCCESS: Synced event 1e38f4c7-ac42-4b7a-adf0-4fc52055fc47 to Firebase collection 'appAccessEvents'
+2025-10-25 17:43:41,663 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 17:43:58,033 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=0.905 > 0.9)
+2025-10-25 17:43:58,166 - INFO - SUCCESS: Synced event 63453471-a047-46f9-9b6c-35a406b57a38 to Firebase collection 'appAccessEvents'
+2025-10-25 17:43:59,283 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 1.2s
+2025-10-25 17:43:59,393 - INFO - SUCCESS: Synced event 63453471-a047-46f9-9b6c-35a406b57a38 to Firebase collection 'appAccessEvents'
+2025-10-25 17:44:11,851 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 17:44:30,564 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.075 < 0.1)
+2025-10-25 17:44:30,701 - INFO - SUCCESS: Synced event 1bb73ebd-e05f-44a6-a03f-8dcfc9d40228 to Firebase collection 'appAccessEvents'
+2025-10-25 17:44:31,224 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 0.7s
+2025-10-25 17:44:31,338 - INFO - SUCCESS: Synced event 1bb73ebd-e05f-44a6-a03f-8dcfc9d40228 to Firebase collection 'appAccessEvents'
+2025-10-25 17:44:41,021 - INFO - SUCCESS: Session end data pushed to Firebase
