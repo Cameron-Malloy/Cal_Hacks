@@ -198,7 +198,7 @@ class DistractionTracker:
         if FIREBASE_AVAILABLE and self.config.get('use_firebase', False):
             try:
                 firebase_config_path = self.config.get('firebase_config_path', 
-                                                     'productivly-563e3-firebase-adminsdk-fbsvc-248154dfeb.json')
+                                                     'firebase-service-account.json')
                 if os.path.exists(firebase_config_path):
                     cred = credentials.Certificate(firebase_config_path)
                     self.firebase_app = firebase_admin.initialize_app(cred)
@@ -267,7 +267,7 @@ class DistractionTracker:
             'use_claude': False,
             'claude_api_key': None,
             'use_firebase': False,
-            'firebase_config_path': 'productivly-563e3-firebase-adminsdk-fbsvc-248154dfeb.json',
+            'firebase_config_path': 'firebase-service-account.json',
             'firebase_collection': 'distraction_events',
             'gaze_threshold_y': 0.8,
             'gaze_threshold_x_min': 0.1,

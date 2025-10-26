@@ -31,7 +31,7 @@
   "use_claude": false,
   "claude_api_key": null,
   "use_firebase": true,
-  "firebase_config_path": "productivly-563e3-firebase-adminsdk-fbsvc-248154dfeb.json",
+  "firebase_config_path": "firebase-service-account.json",
   "firebase_collection": "distraction_events",
   "gaze_threshold_y": 0.9,
   "gaze_threshold_x_min": 0.1,
