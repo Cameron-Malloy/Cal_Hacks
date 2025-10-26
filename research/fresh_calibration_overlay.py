@@ -268,7 +268,7 @@ class FreshCalibrationOverlay:
                     win32gui.SetLayeredWindowAttributes(
                         self.hwnd, 
                         0,  # Color key (0 = black)
-                        10,  # Alpha (200 = semi-transparent, 255 = opaque, 0 = transparent)
+                        100,  # Alpha (200 = semi-transparent, 255 = opaque, 0 = transparent)
                         win32con.LWA_ALPHA
                     )
                     
