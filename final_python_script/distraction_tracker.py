@@ -89,7 +89,6 @@ class ApplicationCategory(Enum):
     MESSAGING = "messaging"
     SOCIAL_MEDIA = "social_media"
     PRODUCTIVITY = "productivity"
-    BROWSER = "browser"
     ENTERTAINMENT = "entertainment"
     NEWS = "news"
     SHOPPING = "shopping"
@@ -571,7 +570,6 @@ class DistractionTracker:
                 Categorize this application based on its window title and process name:
                 
                 Window Title: "{window_title}"
-                Process: "{process_name}"
                 
                 Choose the most appropriate category from these options:
                 - GAME: Video games, gaming platforms (Steam, Epic Games, etc.)
@@ -579,7 +577,6 @@ class DistractionTracker:
                 - MESSAGING: Communication apps (Discord, Slack, Telegram, WhatsApp, Teams, etc.)
                 - SOCIAL_MEDIA: Social networking platforms (Facebook, Twitter, Instagram, TikTok, Reddit, etc.)
                 - PRODUCTIVITY: Work applications (Office suite, project management, etc.)
-                - BROWSER: Web browsers (Chrome, Firefox, Edge, etc.)
                 - ENTERTAINMENT: Other entertainment content (gaming websites, entertainment news, etc.)
                 - NEWS: News websites and applications
                 - SHOPPING: E-commerce and shopping websites
@@ -644,7 +641,6 @@ class DistractionTracker:
                 Assess if this window/tab is distracting or productive for work/study:
                 
                 Window Title: "{window_title}"
-                Process: "{process_name}"
                 
                 Consider it distracting if it's:
                 - Social media (Facebook, Twitter, Instagram, TikTok, Reddit, Discord, Slack)

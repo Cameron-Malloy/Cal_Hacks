@@ -1,0 +1,6 @@
+Starting window focus monitoring...
+Logging to: window_focus.log
+Log format: json
+Check interval: 0.5s
+Press Ctrl+C to stop monitoring
+{"timestamp": "2025-10-26T02:38:01.877089", "window_title": "window_focus_logger.py - Cal_Hacks - Cursor", "process_name": "Cursor.exe", "process_path": "C:\\Users\\vijay\\AppData\\Local\\Programs\\cursor\\Cursor.exe", "process_id": 62408, "window_class": "Chrome_WidgetWin_1", "window_handle": 1968998, "window_rect": {"left": -7, "top": -7, "right": 1286, "bottom": 758, "width": 1293, "height": 765}}
