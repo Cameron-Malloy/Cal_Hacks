@@ -1,0 +1,724 @@
+2025-10-25 07:15:36,826 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 07:15:43,043 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 6.2s
+2025-10-25 07:16:10,430 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.000 < 0.1)
+2025-10-25 07:16:10,601 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: (9) the ambush - youtube — zen browser
+2025-10-25 07:16:10,602 - INFO - WINDOW SWITCH: '(9) The Ambush - YouTube — Zen Browser'  (Category: unknown)
+2025-10-25 07:16:12,086 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 1.7s
+2025-10-25 07:16:17,601 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.077 < 0.1)
+2025-10-25 07:16:32,769 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 15.2s
+2025-10-25 07:16:39,091 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 07:16:42,468 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 3.4s
+2025-10-25 00:47:22,651 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.040 < 0.1)
+2025-10-25 00:47:25,735 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 3.1s
+2025-10-25 00:52:47,906 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 00:52:48,830 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 0.9s
+2025-10-25 00:52:52,152 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 00:52:55,447 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 3.3s
+2025-10-25 00:53:03,154 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.000 < 0.1)
+2025-10-25 00:53:03,749 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 0.6s
+2025-10-25 00:53:13,093 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: (9) the ambush - youtube — zen browser
+2025-10-25 00:53:13,094 - INFO - WINDOW SWITCH: '(9) The Ambush - YouTube — Zen Browser'  (Category: unknown)
+2025-10-25 00:53:16,947 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 00:53:23,731 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 6.8s
+2025-10-25 23:15:15,620 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.000 < 0.1)
+2025-10-25 23:15:16,653 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 1.0s
+2025-10-25 23:15:19,899 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=0.958 > 0.9)
+2025-10-25 23:15:20,277 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 0.4s
+2025-10-25 23:15:22,849 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=0.962 > 0.9)
+2025-10-25 23:15:32,760 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 9.9s
+2025-10-25 23:15:37,918 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.000 < 0.1)
+2025-10-25 23:15:38,121 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: (17) the ambush - youtube — zen browser
+2025-10-25 23:15:38,121 - INFO - WINDOW SWITCH: '(17) The Ambush - YouTube — Zen Browser'  (Category: unknown)
+2025-10-25 23:15:38,866 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 0.9s
+2025-10-25 23:15:39,622 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: the ambush - youtube — zen browser
+2025-10-25 23:15:39,623 - INFO - WINDOW SWITCH: 'The Ambush - YouTube — Zen Browser'  (Category: unknown)
+2025-10-25 23:16:08,379 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.008 < 0.1)
+2025-10-25 23:16:08,607 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 0.2s
+2025-10-25 23:16:23,544 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 23:16:36,051 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 12.5s
+2025-10-25 23:22:53,868 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 23:22:54,372 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:22:54,492 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:22:54,648 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:22:54,803 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:22:54,866 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:22:54,931 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:22:55,121 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:22:55,639 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:22:55,822 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:22:56,111 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 2.2s
+2025-10-25 23:22:56,568 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:22:57,333 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:22:57,906 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:22:58,653 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:23:00,121 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:23:00,511 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 23:23:00,986 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:23:01,825 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 1.3s
+2025-10-25 23:23:01,982 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:23:06,151 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:23:07,775 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:23:14,342 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:23:24,848 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:23:33,933 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:23:46,930 - ERROR - AuthMetadataPluginCallback "<google.auth.transport.grpc.AuthMetadataPlugin object at 0x0000019869546850>" raised exception!
+Traceback (most recent call last):
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\grpc\_plugin_wrapping.py", line 106, in __call__
+    self._metadata_plugin(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 95, in __call__
+    callback(self._get_authorization_headers(context), None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\transport\grpc.py", line 81, in _get_authorization_headers
+    self._credentials.before_request(
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 228, in before_request
+    self._blocking_refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 191, in _blocking_refresh
+    self.refresh(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\auth\credentials.py", line 365, in refresh
+    self._refresh_token(request)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\service_account.py", line 459, in _refresh_token
+    access_token, expiry, _ = _client.jwt_grant(
+                              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "C:\Users\prana\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 23:23:46,939 - ERROR - Firebase sync error for event 831cc613-9daa-417a-8a6a-2cedbb8894d9: Timeout of 60.0s exceeded, last exception: 503 Getting metadata from plugin failed with error: ('invalid_grant: Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT: Token must be a short-lived token (60 minutes) and in a reasonable timeframe. Check your iat and exp values in the JWT claim.'})
+2025-10-25 16:25:13,106 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: (17) the ambush - youtube — zen browser
+2025-10-25 16:25:13,106 - INFO - WINDOW SWITCH: '(17) The Ambush - YouTube — Zen Browser'  (Category: unknown)
+2025-10-25 16:25:46,395 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 16:26:02,696 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 16.3s
+2025-10-25 16:34:50,518 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted app: chrome.exe
+2025-10-25 16:34:50,619 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 0.1s
+2025-10-25 16:34:50,720 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted app: discord.exe
+2025-10-25 16:34:50,820 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 0.1s
+2025-10-25 16:48:53,064 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.000 < 0.1)
+2025-10-25 16:48:53,365 - INFO - SUCCESS: Synced event ec6daccc-aa39-4b3d-a922-328f1852feff to Firebase collection 'appAccessEvents'
+2025-10-25 16:49:03,464 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 10.4s
+2025-10-25 16:49:03,578 - INFO - SUCCESS: Synced event ec6daccc-aa39-4b3d-a922-328f1852feff to Firebase collection 'appAccessEvents'
+2025-10-25 16:49:13,913 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 16:49:14,030 - INFO - SUCCESS: Synced event 9580c8a0-ec90-4bc5-8ddc-d6596382719f to Firebase collection 'appAccessEvents'
+2025-10-25 16:49:17,250 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 3.3s
+2025-10-25 16:49:17,375 - INFO - SUCCESS: Synced event 9580c8a0-ec90-4bc5-8ddc-d6596382719f to Firebase collection 'appAccessEvents'
+2025-10-25 16:49:23,684 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.000 < 0.1)
+2025-10-25 16:49:23,804 - INFO - SUCCESS: Synced event d075a7cc-c477-4549-a40b-26c2543f28e0 to Firebase collection 'appAccessEvents'
+2025-10-25 17:43:11,523 - INFO - SUCCESS: Session start data pushed to Firebase
+2025-10-25 17:43:11,523 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: (17) i destroyed the just cause 3 100% world record - youtube — zen browser
+2025-10-25 17:43:11,523 - INFO - WINDOW SWITCH: '(17) I DESTROYED the Just Cause 3 100% World Record - YouTube — Zen Browser'  (Category: unknown)
+2025-10-25 17:43:11,665 - INFO - SUCCESS: Synced event 1e38f4c7-ac42-4b7a-adf0-4fc52055fc47 to Firebase collection 'appAccessEvents'
+2025-10-25 17:43:16,530 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 5.0s
+2025-10-25 17:43:16,667 - INFO - SUCCESS: Synced event 1e38f4c7-ac42-4b7a-adf0-4fc52055fc47 to Firebase collection 'appAccessEvents'
+2025-10-25 17:43:41,663 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 17:43:58,033 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=0.905 > 0.9)
+2025-10-25 17:43:58,166 - INFO - SUCCESS: Synced event 63453471-a047-46f9-9b6c-35a406b57a38 to Firebase collection 'appAccessEvents'
+2025-10-25 17:43:59,283 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 1.2s
+2025-10-25 17:43:59,393 - INFO - SUCCESS: Synced event 63453471-a047-46f9-9b6c-35a406b57a38 to Firebase collection 'appAccessEvents'
+2025-10-25 17:44:11,851 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 17:44:30,564 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.075 < 0.1)
+2025-10-25 17:44:30,701 - INFO - SUCCESS: Synced event 1bb73ebd-e05f-44a6-a03f-8dcfc9d40228 to Firebase collection 'appAccessEvents'
+2025-10-25 17:44:31,224 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 0.7s
+2025-10-25 17:44:31,338 - INFO - SUCCESS: Synced event 1bb73ebd-e05f-44a6-a03f-8dcfc9d40228 to Firebase collection 'appAccessEvents'
+2025-10-25 17:44:41,021 - INFO - SUCCESS: Session end data pushed to Firebase
+2025-10-25 18:48:40,494 - INFO - SUCCESS: Session start data pushed to Firebase
+2025-10-25 18:49:10,619 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 18:49:17,039 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: (17) i destroyed the just cause 3 100% world record - youtube — zen browser
+2025-10-25 18:49:17,039 - INFO - WINDOW SWITCH: '(17) I DESTROYED the Just Cause 3 100% World Record - YouTube — Zen Browser'  (Category: unknown)
+2025-10-25 18:49:17,159 - INFO - SUCCESS: Synced event 73816e95-e293-4960-bb07-514925b4677d to Firebase collection 'appAccessEvents'
+2025-10-25 18:49:22,377 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.000 < 0.1)
+2025-10-25 18:49:22,508 - INFO - SUCCESS: Synced event 4eefe5e2-c72c-4595-bef3-efa0c3d76d74 to Firebase collection 'appAccessEvents'
+2025-10-25 18:49:28,052 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 11.0s
+2025-10-25 18:49:28,170 - INFO - SUCCESS: Synced event 73816e95-e293-4960-bb07-514925b4677d to Firebase collection 'appAccessEvents'
+2025-10-25 18:49:40,765 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 18:50:08,973 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 46.6s
+2025-10-25 18:50:09,091 - INFO - SUCCESS: Synced event 4eefe5e2-c72c-4595-bef3-efa0c3d76d74 to Firebase collection 'appAccessEvents'
+2025-10-25 18:50:10,893 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 18:50:12,456 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.079 < 0.1)
+2025-10-25 18:50:12,579 - INFO - SUCCESS: Synced event 1b95aaf1-e876-44f3-885e-6ed3ac180518 to Firebase collection 'appAccessEvents'
+2025-10-25 18:50:13,706 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 1.2s
+2025-10-25 18:50:13,823 - INFO - SUCCESS: Synced event 1b95aaf1-e876-44f3-885e-6ed3ac180518 to Firebase collection 'appAccessEvents'
+2025-10-25 18:50:37,191 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.060 < 0.1)
+2025-10-25 18:50:37,307 - INFO - SUCCESS: Synced event 51a8b936-532a-48f6-9bf4-5f3399495409 to Firebase collection 'appAccessEvents'
+2025-10-25 18:50:41,013 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 18:50:43,413 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 6.2s
+2025-10-25 18:50:43,529 - INFO - SUCCESS: Synced event 51a8b936-532a-48f6-9bf4-5f3399495409 to Firebase collection 'appAccessEvents'
+2025-10-25 18:50:56,412 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 18:50:56,538 - INFO - SUCCESS: Synced event c1297d8c-0cb0-4296-ba6a-ca5be91c2122 to Firebase collection 'appAccessEvents'
+2025-10-25 18:51:09,163 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: (17) i destroyed the just cause 3 100% world record - youtube — zen browser
+2025-10-25 18:51:09,163 - INFO - WINDOW SWITCH: '(17) I DESTROYED the Just Cause 3 100% World Record - YouTube — Zen Browser'  (Category: unknown)
+2025-10-25 18:51:09,270 - INFO - SUCCESS: Synced event 484f2932-f708-4181-8b10-cc7a27893c31 to Firebase collection 'appAccessEvents'
+2025-10-25 18:51:11,137 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 18:51:11,167 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 2.0s
+2025-10-25 18:51:11,334 - INFO - SUCCESS: Synced event 484f2932-f708-4181-8b10-cc7a27893c31 to Firebase collection 'appAccessEvents'
+2025-10-25 18:51:22,527 - INFO - SUCCESS: Session end data pushed to Firebase
+2025-10-25 18:55:33,056 - INFO - SUCCESS: Session start data pushed to Firebase
+2025-10-25 18:56:03,188 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 18:56:08,101 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'game' in: game - search — zen browser
+2025-10-25 18:56:08,101 - INFO - WINDOW SWITCH: 'game - Search — Zen Browser'  (Category: unknown)
+2025-10-25 18:56:08,227 - INFO - SUCCESS: Synced event 3c7a6ed9-7e71-495f-9007-7e9730a486fa to Firebase collection 'appAccessEvents'
+2025-10-25 18:56:08,569 - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2025-10-25 18:56:08,569 - ERROR - LangChain categorization error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CUUyiXfSdg5Ct3P4VP6JD'}
+2025-10-25 18:56:08,569 - INFO - Application categorized as: other
+2025-10-25 18:56:08,765 - INFO - SUCCESS: Synced event 3c7a6ed9-7e71-495f-9007-7e9730a486fa to Firebase collection 'appAccessEvents'
+2025-10-25 18:56:15,109 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 7.0s
+2025-10-25 18:56:15,223 - INFO - SUCCESS: Synced event 3c7a6ed9-7e71-495f-9007-7e9730a486fa to Firebase collection 'appAccessEvents'
+2025-10-25 18:56:15,611 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'game' in: free online games at poki - play now! — zen browser
+2025-10-25 18:56:15,612 - INFO - WINDOW SWITCH: 'Free Online Games at Poki - Play Now! — Zen Browser'  (Category: unknown)
+2025-10-25 18:56:15,616 - INFO - Retrying request to /v1/messages in 0.412106 seconds
+2025-10-25 18:56:15,850 - INFO - SUCCESS: Synced event 40f91f61-76c8-484b-b5eb-3e02f3098430 to Firebase collection 'appAccessEvents'
+2025-10-25 18:56:16,412 - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2025-10-25 18:56:16,413 - ERROR - LangChain categorization error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CUUyj6NhWmGRM49c7xjAF'}
+2025-10-25 18:56:16,413 - INFO - Application categorized as: other
+2025-10-25 18:56:16,529 - INFO - SUCCESS: Synced event 40f91f61-76c8-484b-b5eb-3e02f3098430 to Firebase collection 'appAccessEvents'
+2025-10-25 18:56:26,125 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 10.5s
+2025-10-25 18:56:26,126 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'game' in: game - search — zen browser
+2025-10-25 18:56:26,126 - INFO - WINDOW SWITCH: 'game - Search — Zen Browser'  (Category: unknown)
+2025-10-25 18:56:26,128 - INFO - Retrying request to /v1/messages in 0.437131 seconds
+2025-10-25 18:56:26,233 - INFO - SUCCESS: Synced event 40f91f61-76c8-484b-b5eb-3e02f3098430 to Firebase collection 'appAccessEvents'
+2025-10-25 18:56:26,350 - INFO - SUCCESS: Synced event 61b35e74-6aec-44ba-90ee-1d7d642ebd53 to Firebase collection 'appAccessEvents'
+2025-10-25 18:56:26,698 - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2025-10-25 18:56:26,698 - ERROR - LangChain categorization error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CUUyjsJRNXdxWXVp9tzCX'}
+2025-10-25 18:56:26,698 - INFO - Application categorized as: other
+2025-10-25 18:56:26,801 - INFO - SUCCESS: Synced event 61b35e74-6aec-44ba-90ee-1d7d642ebd53 to Firebase collection 'appAccessEvents'
+2025-10-25 18:56:28,129 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 2.0s
+2025-10-25 18:56:28,129 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: (17) i destroyed the just cause 3 100% world record - youtube — zen browser
+2025-10-25 18:56:28,129 - INFO - WINDOW SWITCH: '(17) I DESTROYED the Just Cause 3 100% World Record - YouTube — Zen Browser'  (Category: unknown)
+2025-10-25 18:56:28,133 - INFO - Retrying request to /v1/messages in 0.386434 seconds
+2025-10-25 18:56:28,226 - INFO - SUCCESS: Synced event 61b35e74-6aec-44ba-90ee-1d7d642ebd53 to Firebase collection 'appAccessEvents'
+2025-10-25 18:56:28,378 - INFO - SUCCESS: Synced event 7b7c3383-0865-4765-abc7-c283f6217660 to Firebase collection 'appAccessEvents'
+2025-10-25 18:56:28,668 - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 400 Bad Request"
+2025-10-25 18:56:28,668 - ERROR - LangChain categorization error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CUUyk1gT3zU5oBpgcwpSR'}
+2025-10-25 18:56:28,668 - INFO - Application categorized as: other
+2025-10-25 18:56:28,769 - INFO - SUCCESS: Synced event 7b7c3383-0865-4765-abc7-c283f6217660 to Firebase collection 'appAccessEvents'
+2025-10-25 18:56:32,635 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 4.5s
+2025-10-25 18:56:32,736 - INFO - SUCCESS: Synced event 7b7c3383-0865-4765-abc7-c283f6217660 to Firebase collection 'appAccessEvents'
+2025-10-25 18:56:33,312 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 18:56:34,813 - INFO - SUCCESS: Session end data pushed to Firebase
