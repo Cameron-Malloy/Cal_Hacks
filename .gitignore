@@ -2,3 +2,4 @@
 /.env
 /research/__pycache__
 /final_python_script/firebase-service-account.json
+/final_python_script/.env

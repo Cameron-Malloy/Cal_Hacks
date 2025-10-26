@@ -34,24 +34,22 @@ import sys
 import os
 import math
 import uuid
+from dotenv import load_dotenv
+load_dotenv(".env")
 
 # Import our existing modules
 from fresh_screen_gaze_tracking import FreshScreenGazeTracker
 from window_logger import WindowFocusLogger
 
-# Claude API integration
-try:
-    from anthropic import Anthropic
-    CLAUDE_AVAILABLE = True
-except ImportError:
-    print("Warning: Claude API not available. Install anthropic for AI-powered distraction detection.")
-    CLAUDE_AVAILABLE = False
-
 # LangChain integration for structured output
 try:
     from langchain_anthropic import ChatAnthropic
     from pydantic import BaseModel, Field
-    LANGCHAIN_AVAILABLE = True
+    # Check if API key is available
+    ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
+    LANGCHAIN_AVAILABLE = bool(ANTHROPIC_API_KEY)
+    if not LANGCHAIN_AVAILABLE:
+        print("Warning: LangChain Claude API key not found in environment variables.")
 except ImportError:
     print("Warning: LangChain not available. Install langchain and langchain-anthropic for structured output.")
     LANGCHAIN_AVAILABLE = False
@@ -123,6 +121,8 @@ class DistractionEvent:
     window_data: Optional[Dict[str, Any]] = None
     claude_assessment: Optional[bool] = None
     application_category: Optional[ApplicationCategory] = None
+    category_confidence: Optional[float] = None
+    category_reasoning: Optional[str] = None
     claude_confidence: Optional[float] = None
     claude_reasoning: Optional[str] = None
     suggested_action: Optional[str] = None
@@ -253,37 +253,32 @@ class DistractionTracker:
         
         self.start_time = time.time()
         self.session_id = "session_" + str(self.start_time)
-        # Claude API client (Legacy)
-        self.claude_client = None
         
         # LangChain Claude client for structured output
         self.langchain_claude = None
-        if LANGCHAIN_AVAILABLE and self.config.get('use_claude', False):
+        if LANGCHAIN_AVAILABLE:
+            print("[CLAUDE] CLAUDE INITIALIZATION STARTING...")
+            print(f"[CLAUDE] LangChain available: {LANGCHAIN_AVAILABLE}")
+            print(f"[CLAUDE] API key available: {bool(ANTHROPIC_API_KEY)}")
             try:
-                api_key = self.config.get('claude_api_key')
-                if api_key:
+                if ANTHROPIC_API_KEY:
+                    print("[CLAUDE] Creating LangChain Claude client...")
                     self.langchain_claude = ChatAnthropic(
                         model="claude-3-haiku-20240307",
-                        api_key=api_key,
+                        api_key=ANTHROPIC_API_KEY,
                         temperature=0.1
                     )
+                    print("[CLAUDE] LangChain Claude client created successfully")
                     print("✓ LangChain Claude initialized")
                 else:
-                    print("Warning: Claude API key not found in config")
+                    print("[ERROR] Claude API key not found in environment variables")
             except Exception as e:
-                print(f"Warning: Could not initialize LangChain Claude: {e}")
-        
-        # Fallback to legacy Claude client if LangChain not available
-        if not self.langchain_claude and CLAUDE_AVAILABLE and self.config.get('use_claude', False):
-            try:
-                api_key = self.config.get('claude_api_key')
-                if api_key:
-                    self.claude_client = Anthropic(api_key=api_key)
-                    print("✓ Legacy Claude API initialized (LangChain not available)")
-                else:
-                    print("Warning: Claude API key not found in config")
-            except Exception as e:
-                print(f"Warning: Could not initialize Claude API: {e}")
+                print(f"[ERROR] Could not initialize LangChain Claude: {e}")
+                print(f"[ERROR] Error type: {type(e).__name__}")
+                import traceback
+                print(f"[ERROR] Full traceback: {traceback.format_exc()}")
+        else:
+            print(f"[CLAUDE] Claude disabled - Available: {LANGCHAIN_AVAILABLE}")
         
         # Logging setup
         self.setup_logging()
@@ -291,7 +286,7 @@ class DistractionTracker:
         print("Refactored distraction tracker initialized")
         print(f"Blacklisted apps: {len(self.blacklisted_apps)}")
         print(f"Blacklisted keywords: {len(self.blacklisted_keywords)}")
-        print(f"Claude integration: {'Enabled (LangChain)' if self.langchain_claude else 'Enabled (Legacy)' if self.claude_client else 'Disabled'}")
+        print(f"Claude integration: {'Enabled (LangChain)' if self.langchain_claude else 'Disabled'}")
         print(f"Firebase integration: {'Enabled' if self.firestore_client else 'Disabled'}")
         if self.firestore_client:
             print(f"[FIREBASE] Collection: {self.config.get('firebase_collection', 'appAccessEvents')}")
@@ -346,7 +341,6 @@ class DistractionTracker:
                 
                 # Queue for immediate Firebase sync
                 if self.firestore_client:
-                    print(f"[FIREBASE] Queuing resolved event {distraction_id} for Firebase sync")
                     self.firebase_queue.put(event)
                 
                 # Remove from active distractions
@@ -371,7 +365,6 @@ class DistractionTracker:
                 'gaming', 'game', 'entertainment'
             ],
             'use_claude': False,
-            'claude_api_key': None,
             'use_firebase': False,
             'firebase_config_path': 'firebase-service-account.json',
             'firebase_collection': 'distraction_events',
@@ -402,15 +395,8 @@ class DistractionTracker:
     
     def setup_logging(self):
         """Setup logging for distraction events"""
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler('distraction_tracker.log'),
-                logging.StreamHandler()
-            ]
-        )
-        self.logger = logging.getLogger('DistractionTracker')
+        # Logging setup removed - using print statements instead
+        pass
     
     def is_gaze_distracted(self, gaze_x: float, gaze_y: float) -> Tuple[bool, str]:
         """
@@ -453,7 +439,7 @@ class DistractionTracker:
         self.distraction_events.append(event)
         
         # Log the distraction start
-        self.logger.info(f"DISTRACTION STARTED: {event.type.value} - {event.reason}")
+        print(f"DISTRACTION STARTED: {event.type.value} - {event.reason}")
         
         # Queue for logging (immediate)
         self.logging_queue.put(('start', event))
@@ -461,7 +447,7 @@ class DistractionTracker:
         # Determine if Claude processing is needed
         needs_claude = False
         
-        if event.type == DistractionType.WINDOW_DISTRACTION and self.claude_client:
+        if event.type == DistractionType.WINDOW_DISTRACTION and self.langchain_claude:
             # Only categorize if not already blacklisted (to avoid unnecessary calls)
             if not self.is_blacklisted_distraction(event):
                 needs_claude = True
@@ -472,9 +458,7 @@ class DistractionTracker:
         
         # If no Claude processing needed, queue Firebase immediately
         if not needs_claude:
-            print(f"[FIREBASE] Queuing event {event.id} for immediate Firebase sync (no Claude processing needed)")
             self.firebase_queue.put(event)
-            print(f"[FIREBASE] Event {event.id} queued successfully")
     
     def resolve_distraction(self, event_id: str):
         """Resolve an active distraction"""
@@ -486,15 +470,13 @@ class DistractionTracker:
             
             # Log the distraction resolution
             duration = (event.end_time - event.start_time).total_seconds()
-            self.logger.info(f"DISTRACTION RESOLVED: {event.type.value} - Duration: {duration:.1f}s")
+            print(f"DISTRACTION RESOLVED: {event.type.value} - Duration: {duration:.1f}s")
             
             # Queue for logging (immediate)
             self.logging_queue.put(('resolve', event))
             
             # Queue Firebase sync (will happen after any pending Claude processing)
-            print(f"[FIREBASE] Queuing resolved event {event.id} for Firebase sync")
             self.firebase_queue.put(event)
-            print(f"[FIREBASE] Resolved event {event.id} queued successfully")
             
             # Remove from active distractions
             del self.active_distractions[event_id]
@@ -545,19 +527,25 @@ class DistractionTracker:
         
         return False, "Productive window"
     
-    async def categorize_application(self, window_title: str, process_name: str) -> ApplicationCategory:
+    async def categorize_application(self, window_title: str, process_name: str) -> Tuple[ApplicationCategory, float, str]:
         """
         Use Claude API to categorize the application type with structured output
         
         Returns:
-            ApplicationCategory enum value
+            Tuple of (ApplicationCategory enum value, confidence, reasoning)
         """
-        if not self.langchain_claude and not self.claude_client:
-            return ApplicationCategory.OTHER
+        print(f"[CLAUDE] CATEGORIZATION STARTING for: '{window_title}' ({process_name})")
         
-        # Use LangChain structured output if available
+        if not self.langchain_claude:
+            print("[ERROR] ERROR: Claude client not available - skipping categorization")
+            return (ApplicationCategory.OTHER, 0.0, "Claude client not available")
+        
+        print("[CLAUDE] Claude client is available, proceeding with categorization...")
+        
+        # Use LangChain structured output
         if self.langchain_claude and LANGCHAIN_AVAILABLE:
             try:
+                print(f"[CLAUDE] Creating categorization prompt for: '{window_title}' ({process_name})")
                 prompt = f"""
                 Categorize this application based on its window title and process name:
                 
@@ -579,66 +567,30 @@ class DistractionTracker:
                 - OTHER: Anything that doesn't fit the above categories
                 """
                 
+                print("[CLAUDE] Sending categorization request to Claude...")
                 # Use structured output with simple invoke
                 result = await self.langchain_claude.with_structured_output(ApplicationCategorization).ainvoke(prompt)
+                print(f"[CLAUDE] Claude categorization response received")
+                print(f"[CLAUDE] Category: {result.category}")
+                print(f"[CLAUDE] Confidence: {result.confidence}")
+                print(f"[CLAUDE] Reasoning: {result.reasoning}")
                 
                 # Map result to enum
                 try:
                     category = ApplicationCategory(result.category.lower())
-                    return category
+                    print(f"[CLAUDE] Successfully mapped to category: {category.value}")
+                    return (category, result.confidence, result.reasoning)
                 except ValueError:
-                    self.logger.warning(f"Unknown category from Claude: {result.category}")
-                    return ApplicationCategory.OTHER
+                    print(f"[ERROR] Unknown category from Claude: {result.category}")
+                    return (ApplicationCategory.OTHER, result.confidence, result.reasoning)
                     
             except Exception as e:
-                self.logger.error(f"LangChain categorization error: {e}")
-                return ApplicationCategory.OTHER
-        
-        # Fallback to legacy Claude API
-        else:
-            prompt = f"""
-            Categorize this application based on its window title and process name:
-            
-            Window Title: "{window_title}"
-            Process: "{process_name}"
-            
-            Choose the most appropriate category from these options:
-            - GAME: Video games, gaming platforms (Steam, Epic Games, etc.)
-            - STREAMING: Video/music streaming services (YouTube, Netflix, Spotify, Twitch, etc.)
-            - MESSAGING: Communication apps (Discord, Slack, Telegram, WhatsApp, Teams, etc.)
-            - SOCIAL_MEDIA: Social networking platforms (Facebook, Twitter, Instagram, TikTok, Reddit, etc.)
-            - PRODUCTIVITY: Work applications (Office suite, project management, etc.)
-            - BROWSER: Web browsers (Chrome, Firefox, Edge, etc.)
-            - ENTERTAINMENT: Other entertainment content (gaming websites, entertainment news, etc.)
-            - NEWS: News websites and applications
-            - SHOPPING: E-commerce and shopping websites
-            - EDUCATION: Educational content (Khan Academy, Coursera, educational videos, etc.)
-            - DEVELOPMENT: Development tools (VS Code, GitHub, Stack Overflow, documentation, etc.)
-            - OTHER: Anything that doesn't fit the above categories
-            
-            Respond with only the category name (e.g., "GAME", "STREAMING", "MESSAGING", etc.).
-            """
-            
-            try:
-                response = self.claude_client.messages.create(
-                    model="claude-3-haiku-20240307",
-                    max_tokens=20,
-                    messages=[{"role": "user", "content": prompt}]
-                )
-                
-                result = response.content[0].text.strip().upper()
-                
-                # Map response to enum
-                try:
-                    return ApplicationCategory(result)
-                except ValueError:
-                    # If response doesn't match any enum value, return OTHER
-                    self.logger.warning(f"Unknown category from Claude: {result}")
-                    return ApplicationCategory.OTHER
-                
-            except Exception as e:
-                self.logger.error(f"Claude categorization error: {e}")
-                return ApplicationCategory.OTHER
+                print(f"[ERROR] ERROR: Claude categorization failed for '{window_title}' ({process_name})")
+                print(f"[ERROR] Error message: {e}")
+                print(f"[ERROR] Error type: {type(e).__name__}")
+                import traceback
+                print(f"[ERROR] Full traceback: {traceback.format_exc()}")
+                return (ApplicationCategory.OTHER, 0.0, f"Error: {str(e)}")
     
     async def process_claude_assessment(self, event: DistractionEvent) -> bool:
         """
@@ -647,18 +599,26 @@ class DistractionTracker:
         Returns:
             True if distracting, False if productive
         """
-        if not self.langchain_claude and not self.claude_client:
+        print(f"[CLAUDE] ASSESSMENT STARTING for event {event.id}")
+        
+        if not self.langchain_claude:
+            print("[ERROR] ERROR: Claude client not available - skipping assessment")
             return False
         
         if not event.window_data:
+            print("[ERROR] ERROR: No window data available for assessment")
             return False
         
         window_title = event.window_data.get('window_title', '')
         process_name = event.window_data.get('process_name', '')
+        print(f"[CLAUDE] Assessing: '{window_title}' ({process_name})")
         
-        # Use LangChain structured output if available
+        print("[CLAUDE] Claude client is available, proceeding with assessment...")
+        
+        # Use LangChain structured output
         if self.langchain_claude and LANGCHAIN_AVAILABLE:
             try:
+                print(f"[CLAUDE] Creating assessment prompt for: '{window_title}' ({process_name})")
                 prompt = f"""
                 Assess if this window/tab is distracting or productive for work/study:
                 
@@ -679,8 +639,14 @@ class DistractionTracker:
                 - Work-related communication (work Slack, work email)
                 """
                 
+                print("[CLAUDE] Sending assessment request to Claude...")
                 # Use structured output with simple invoke
                 result = await self.langchain_claude.with_structured_output(DistractionAssessment).ainvoke(prompt)
+                print(f"[CLAUDE] Claude assessment response received")
+                print(f"[CLAUDE] Is distracting: {result.is_distracting}")
+                print(f"[CLAUDE] Confidence: {result.confidence}")
+                print(f"[CLAUDE] Reasoning: {result.reasoning}")
+                print(f"[CLAUDE] Suggested action: {result.suggested_action}")
                 
                 # Update the event with Claude's assessment
                 event.claude_assessment = result.is_distracting
@@ -688,53 +654,15 @@ class DistractionTracker:
                 event.claude_reasoning = result.reasoning
                 event.suggested_action = result.suggested_action
                 
+                print(f"[CLAUDE] Assessment completed successfully")
                 return result.is_distracting
                 
             except Exception as e:
-                self.logger.error(f"LangChain assessment error: {e}")
-                return False
-        
-        # Fallback to legacy Claude API
-        else:
-            prompt = f"""
-            Assess if this window/tab is distracting or productive for work/study:
-            
-            Window Title: "{window_title}"
-            Process: "{process_name}"
-            
-            Consider it distracting if it's:
-            - Social media (Facebook, Twitter, Instagram, TikTok, Reddit, Discord, Slack)
-            - Entertainment (YouTube, Netflix, Spotify, gaming)
-            - News sites (unless work-related)
-            - Shopping sites
-            - Personal communication apps
-            
-            Consider it productive if it's:
-            - Work applications (VS Code, Excel, Word, PowerPoint)
-            - Educational content (Khan Academy, Coursera, educational YouTube)
-            - Professional tools (GitHub, Stack Overflow, documentation)
-            - Work-related communication (work Slack, work email)
-            
-            Respond with only "DISTRACTING" or "PRODUCTIVE".
-            """
-            
-            try:
-                response = self.claude_client.messages.create(
-                    model="claude-3-haiku-20240307",
-                    max_tokens=10,
-                    messages=[{"role": "user", "content": prompt}]
-                )
-                
-                result = response.content[0].text.strip().upper()
-                is_distracting = result == "DISTRACTING"
-                
-                # Update the event with Claude's assessment
-                event.claude_assessment = is_distracting
-                
-                return is_distracting
-                
-            except Exception as e:
-                self.logger.error(f"Claude API error: {e}")
+                print(f"[ERROR] ERROR: Claude assessment failed for event {event.id}")
+                print(f"[ERROR] Error message: {e}")
+                print(f"[ERROR] Error type: {type(e).__name__}")
+                import traceback
+                print(f"[ERROR] Full traceback: {traceback.format_exc()}")
                 return False
     
     async def sync_to_firebase(self, event: DistractionEvent):
@@ -746,7 +674,6 @@ class DistractionTracker:
         
         if not self.firestore_client:
             print("[ERROR] ERROR: Firebase client not available - skipping sync")
-            self.logger.debug("Firebase client not available - skipping sync")
             return
         
         print("[FIREBASE] Firebase client is available, proceeding with sync...")
@@ -777,7 +704,6 @@ class DistractionTracker:
             
             event.firebase_synced = True
             print(f"SUCCESS: Synced event {event.id} to Firebase collection '{collection_name}'")
-            self.logger.info(f"SUCCESS: Synced event {event.id} to Firebase collection '{collection_name}'")
             
         except Exception as e:
             print(f"[ERROR] ERROR: Firebase sync failed for event {event.id}")
@@ -785,7 +711,6 @@ class DistractionTracker:
             print(f"[ERROR] Error type: {type(e).__name__}")
             import traceback
             print(f"[ERROR] Full traceback: {traceback.format_exc()}")
-            self.logger.error(f"Firebase sync error for event {event.id}: {e}")
             # Don't re-raise the exception to prevent worker thread crashes
     
     def push_session_start_data(self):
@@ -818,11 +743,9 @@ class DistractionTracker:
             # Write session data
             session_doc_ref.set(session_data)
             print(f"SUCCESS: Session start data pushed to Firebase")
-            self.logger.info(f"SUCCESS: Session start data pushed to Firebase")
             
         except Exception as e:
             print(f"[ERROR] Session start data push failed: {e}")
-            self.logger.error(f"Session start data push error: {e}")
     
     def push_session_stats_update(self):
         """Push current session stats to Firebase"""
@@ -876,11 +799,9 @@ class DistractionTracker:
             # Update session document with stats
             session_doc_ref.update(stats_data)
             print(f"SUCCESS: Session stats updated in Firebase")
-            self.logger.info(f"SUCCESS: Session stats updated in Firebase")
             
         except Exception as e:
             print(f"[ERROR] Session stats update failed: {e}")
-            self.logger.error(f"Session stats update error: {e}")
     
     def push_session_end_data(self):
         """Push session end data to Firebase"""
@@ -928,11 +849,9 @@ class DistractionTracker:
             # Update session document with end data
             session_doc_ref.update(end_data)
             print(f"SUCCESS: Session end data pushed to Firebase")
-            self.logger.info(f"SUCCESS: Session end data pushed to Firebase")
             
         except Exception as e:
             print(f"[ERROR] Session end data push failed: {e}")
-            self.logger.error(f"Session end data push error: {e}")
     
     def run_async_logging_worker(self):
         """Run async logging worker in separate thread"""
@@ -963,7 +882,7 @@ class DistractionTracker:
                         # Also log to console with category info
                         if event.type == DistractionType.WINDOW_DISTRACTION and event.window_data:
                             category_info = f" (Category: {event.application_category.value if event.application_category else 'unknown'})"
-                            self.logger.info(f"WINDOW SWITCH: '{event.window_data.get('window_title', '')}' {category_info}")
+                            print(f"WINDOW SWITCH: '{event.window_data.get('window_title', '')}' {category_info}")
                             
                     elif action == 'resolve':
                         # Log distraction resolution to file
@@ -981,7 +900,7 @@ class DistractionTracker:
                 except queue.Empty:
                     continue
                 except Exception as e:
-                    self.logger.error(f"Logging worker error: {e}")
+                    print(f"Logging worker error: {e}")
         
         thread = threading.Thread(target=worker, daemon=True)
         thread.start()
@@ -994,7 +913,6 @@ class DistractionTracker:
             while self.running:
                 try:
                     event = self.firebase_queue.get(timeout=1)
-                    print(f"[FIREBASE] Firebase worker received event: {event.id}")
                     
                     # Run async Firebase sync with proper error handling
                     try:
@@ -1006,7 +924,6 @@ class DistractionTracker:
                         print("[FIREBASE] Firebase sync completed successfully")
                     except Exception as e:
                         print(f"[ERROR] ERROR: Firebase sync error in worker for event {event.id}: {e}")
-                        self.logger.error(f"Firebase sync error for event {event.id}: {e}")
                     finally:
                         try:
                             print("[FIREBASE] Closing event loop...")
@@ -1015,13 +932,11 @@ class DistractionTracker:
                         except Exception as e:
                             print(f"[ERROR] Error closing event loop: {e}")
                     
-                    print(f"[FIREBASE] Firebase worker completed task for event {event.id}")
                     self.firebase_queue.task_done()
                 except queue.Empty:
                     continue
                 except Exception as e:
                     print(f"[ERROR] ERROR: Firebase worker error: {e}")
-                    self.logger.error(f"Firebase worker error: {e}")
                     # Still mark task as done to prevent hanging
                     try:
                         self.firebase_queue.task_done()
@@ -1037,6 +952,7 @@ class DistractionTracker:
     def run_claude_worker(self):
         """Run Claude assessment worker in separate thread"""
         def worker():
+            print("[CLAUDE] CLAUDE WORKER THREAD STARTED")
             while self.running:
                 try:
                     task = self.claude_queue.get(timeout=1)
@@ -1044,135 +960,124 @@ class DistractionTracker:
                     # Handle different types of Claude tasks
                     if isinstance(task, tuple) and len(task) == 2:
                         task_type, event = task
+                        print(f"[CLAUDE] Processing task type: {task_type} for event {event.id}")
                         
                         if task_type == 'categorize_and_assess':
                             # Categorize and assess the application
+                            print(f"[CLAUDE] Starting categorize_and_assess for event {event.id}")
                             try:
+                                print("[CLAUDE] Creating new event loop for Claude processing...")
                                 loop = asyncio.new_event_loop()
                                 asyncio.set_event_loop(loop)
+                                print("[CLAUDE] Event loop created successfully")
+                                
                                 if event.window_data:
                                     window_title = event.window_data.get('window_title', '')
                                     process_name = event.window_data.get('process_name', '')
+                                    print(f"[CLAUDE] Processing window: '{window_title}' ({process_name})")
                                     
                                     # First categorize
-                                    category = loop.run_until_complete(
+                                    print("[CLAUDE] Starting categorization...")
+                                    category, category_confidence, category_reasoning = loop.run_until_complete(
                                         self.categorize_application(window_title, process_name)
                                     )
                                     event.application_category = category
-                                    self.logger.info(f"Application categorized as: {category.value}")
+                                    event.category_confidence = category_confidence
+                                    event.category_reasoning = category_reasoning
+                                    print(f"[CLAUDE] Categorization completed: {category.value}")
+                                    print(f"[CLAUDE] Category confidence: {category_confidence:.2f}")
+                                    print(f"[CLAUDE] Category reasoning: {category_reasoning}")
                                     
                                     # Then assess
+                                    print("[CLAUDE] Starting assessment...")
                                     is_distracting = loop.run_until_complete(self.process_claude_assessment(event))
-                                    self.logger.info(f"Claude assessment completed for: {window_title} - Distracting: {is_distracting}")
+                                    print(f"[CLAUDE] Assessment completed: {is_distracting}")
                                     
                                     # Log additional structured output data if available
                                     if event.claude_confidence is not None:
-                                        self.logger.info(f"Claude confidence: {event.claude_confidence:.2f}")
+                                        print(f"[CLAUDE] Confidence: {event.claude_confidence:.2f}")
                                     if event.claude_reasoning:
-                                        self.logger.info(f"Claude reasoning: {event.claude_reasoning}")
+                                        print(f"[CLAUDE] Reasoning: {event.claude_reasoning}")
                                     if event.suggested_action:
-                                        self.logger.info(f"Suggested action: {event.suggested_action}")
+                                        print(f"[CLAUDE] Suggested action: {event.suggested_action}")
                                 
                                 # Queue Firebase sync after Claude processing completes
-                                print(f"[FIREBASE] Queuing event {event.id} for Firebase sync after Claude processing")
                                 self.firebase_queue.put(event)
-                                print(f"[FIREBASE] Event {event.id} queued after Claude processing")
+                                print(f"[CLAUDE] categorize_and_assess completed successfully for event {event.id}")
                             except Exception as e:
-                                self.logger.error(f"Claude categorize_and_assess error: {e}")
+                                print(f"[ERROR] ERROR: Claude categorize_and_assess failed for event {event.id}")
+                                print(f"[ERROR] Error message: {e}")
+                                print(f"[ERROR] Error type: {type(e).__name__}")
+                                import traceback
+                                print(f"[ERROR] Full traceback: {traceback.format_exc()}")
                             finally:
                                 try:
+                                    print("[CLAUDE] Closing event loop...")
                                     loop.close()
-                                except:
-                                    pass
+                                    print("[CLAUDE] Event loop closed")
+                                except Exception as e:
+                                    print(f"[ERROR] Error closing event loop: {e}")
                             
                         elif task_type == 'categorize_only':
                             # Only categorize (for blacklisted distractions)
+                            print(f"[CLAUDE] Starting categorize_only for event {event.id}")
                             try:
+                                print("[CLAUDE] Creating new event loop for categorization...")
                                 loop = asyncio.new_event_loop()
                                 asyncio.set_event_loop(loop)
+                                print("[CLAUDE] Event loop created successfully")
+                                
                                 if event.window_data:
                                     window_title = event.window_data.get('window_title', '')
                                     process_name = event.window_data.get('process_name', '')
-                                    category = loop.run_until_complete(
+                                    print(f"[CLAUDE] Categorizing window: '{window_title}' ({process_name})")
+                                    
+                                    category, category_confidence, category_reasoning = loop.run_until_complete(
                                         self.categorize_application(window_title, process_name)
                                     )
                                     event.application_category = category
-                                    self.logger.info(f"Application categorized as: {category.value}")
+                                    event.category_confidence = category_confidence
+                                    event.category_reasoning = category_reasoning
+                                    print(f"[CLAUDE] Categorization completed: {category.value}")
+                                    print(f"[CLAUDE] Category confidence: {category_confidence:.2f}")
+                                    print(f"[CLAUDE] Category reasoning: {category_reasoning}")
                                 
                                 # Queue Firebase sync after categorization completes
-                                print(f"[FIREBASE] Queuing event {event.id} for Firebase sync after categorization")
                                 self.firebase_queue.put(event)
-                                print(f"[FIREBASE] Event {event.id} queued after categorization")
+                                print(f"[CLAUDE] categorize_only completed successfully for event {event.id}")
                             except Exception as e:
-                                self.logger.error(f"Claude categorize_only error: {e}")
+                                print(f"[ERROR] ERROR: Claude categorize_only failed for event {event.id}")
+                                print(f"[ERROR] Error message: {e}")
+                                print(f"[ERROR] Error type: {type(e).__name__}")
+                                import traceback
+                                print(f"[ERROR] Full traceback: {traceback.format_exc()}")
                             finally:
                                 try:
+                                    print("[CLAUDE] Closing event loop...")
                                     loop.close()
-                                except:
-                                    pass
+                                    print("[CLAUDE] Event loop closed")
+                                except Exception as e:
+                                    print(f"[ERROR] Error closing event loop: {e}")
                             
-                        elif task_type == 'categorize':
-                            # Legacy categorize task
-                            try:
-                                loop = asyncio.new_event_loop()
-                                asyncio.set_event_loop(loop)
-                                if event.window_data:
-                                    window_title = event.window_data.get('window_title', '')
-                                    process_name = event.window_data.get('process_name', '')
-                                    category = loop.run_until_complete(
-                                        self.categorize_application(window_title, process_name)
-                                    )
-                                    event.application_category = category
-                                    self.logger.info(f"Application categorized as: {category.value}")
-                            except Exception as e:
-                                self.logger.error(f"Claude categorize error: {e}")
-                            finally:
-                                try:
-                                    loop.close()
-                                except:
-                                    pass
-                            
-                        elif task_type == 'assess':
-                            # Legacy assess task
-                            try:
-                                loop = asyncio.new_event_loop()
-                                asyncio.set_event_loop(loop)
-                                loop.run_until_complete(self.process_claude_assessment(event))
-                            except Exception as e:
-                                self.logger.error(f"Claude assess error: {e}")
-                            finally:
-                                try:
-                                    loop.close()
-                                except:
-                                    pass
-                    else:
-                        # Legacy single event handling (for backward compatibility)
-                        event = task
-                        try:
-                            loop = asyncio.new_event_loop()
-                            asyncio.set_event_loop(loop)
-                            loop.run_until_complete(self.process_claude_assessment(event))
-                        except Exception as e:
-                            self.logger.error(f"Claude legacy processing error: {e}")
-                        finally:
-                            try:
-                                loop.close()
-                            except:
-                                pass
                     
                     self.claude_queue.task_done()
                 except queue.Empty:
                     continue
                 except Exception as e:
-                    self.logger.error(f"Claude worker error: {e}")
+                    print(f"[ERROR] ERROR: Claude worker error: {e}")
+                    print(f"[ERROR] Error type: {type(e).__name__}")
+                    import traceback
+                    print(f"[ERROR] Full traceback: {traceback.format_exc()}")
                     # Still mark task as done to prevent hanging
                     try:
                         self.claude_queue.task_done()
                     except:
                         pass
         
+        print("[CLAUDE] Starting Claude worker thread...")
         thread = threading.Thread(target=worker, daemon=True)
         thread.start()
+        print("[CLAUDE] Claude worker thread started successfully")
         return thread
     
     def update_gaze_data(self, gaze_data: Dict[str, Any]):
@@ -1227,7 +1132,6 @@ class DistractionTracker:
         # If window changed, resolve any active distractions from the previous window
         if previous_window_key and previous_window_key != current_window_key:
             self.resolve_distractions_for_window(previous_window_key)
-            print(f"[WINDOW] Window changed from '{previous_window_key}' to '{current_window_key}'")
         
         # Check if current window is distracting
         is_distracted, reason = self.is_window_distracted(window_data)
@@ -1242,7 +1146,6 @@ class DistractionTracker:
             
             if not active_window_distractions:
                 # Create and start new window distraction
-                print(f"[WINDOW] Starting new distraction for: {window_data.get('window_title', '')}")
                 event = self.create_distraction_event(
                     DistractionType.WINDOW_DISTRACTION,
                     reason,
@@ -1250,10 +1153,6 @@ class DistractionTracker:
                     window_data
                 )
                 self.start_distraction(event)
-            else:
-                print(f"[WINDOW] Distraction already active for: {window_data.get('window_title', '')}")
-        else:
-            print(f"[WINDOW] Productive window: {window_data.get('window_title', '')}")
         
         # Update window state tracking
         self.last_window_key = current_window_key
@@ -1457,13 +1356,7 @@ class DistractionTracker:
             while self.running:
                 time.sleep(1)
                 
-                # Print status every 10 seconds
-                if int(time.time()) % 10 == 0:
-                    active_count = len(self.active_distractions)
-                    total_count = len(self.distraction_events)
-                    print(f"Status: Gaze=({self.current_gaze_x:.3f}, {self.current_gaze_y:.3f}), "
-                          f"Window='{self.current_window_info.get('window_title', 'None') if self.current_window_info else 'None'}', "
-                          f"Active={active_count}, Total={total_count}")
+                # Status updates removed to reduce terminal clutter
                 
                 # Update session stats every 30 seconds
                 if time.time() - last_stats_update >= 30:
