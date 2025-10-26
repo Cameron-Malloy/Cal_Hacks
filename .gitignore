@@ -6,7 +6,9 @@ venv/
 /research/__pycache__
 **/__pycache__/
 /final_python_script/firebase-service-account.json
+/final_python_script/productivly-563e3-firebase-adminsdk-fbsvc-7d29118195.json
 /final_python_script/.env
+**/*firebase-adminsdk*.json
 *.pyc
 .DS_Store
 node_modules/
