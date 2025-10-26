@@ -36,13 +36,13 @@ class FreshScreenGazeTracker:
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_drawing_styles = mp.solutions.drawing_styles
         
-        # Face mesh model
+        # Face mesh model - optimized for performance
         self.face_mesh = self.mp_face_mesh.FaceMesh(
             static_image_mode=False,
             max_num_faces=1,
-            refine_landmarks=True,
-            min_detection_confidence=0.5,
-            min_tracking_confidence=0.5
+            refine_landmarks=False,  # Disabled for better performance
+            min_detection_confidence=0.3,  # Lower threshold for faster detection
+            min_tracking_confidence=0.3  # Lower threshold for faster tracking
         )
         
         # Eye landmark indices (MediaPipe face mesh)

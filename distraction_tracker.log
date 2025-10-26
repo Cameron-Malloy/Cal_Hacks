@@ -1,0 +1,37 @@
+2025-10-25 18:33:30,564 - INFO - DISTRACTION STARTED: gaze_distraction - Looking right off-screen (x=1.000 > 0.9)
+2025-10-25 18:33:32,107 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 1.5s
+2025-10-25 18:33:35,124 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.8)
+2025-10-25 18:33:42,998 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 7.9s
+2025-10-25 18:33:46,039 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.000 < 0.1)
+2025-10-25 18:34:06,577 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 20.5s
+2025-10-25 18:34:09,528 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.000 < 0.1)
+2025-10-25 18:34:18,357 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 8.8s
+2025-10-25 18:34:28,348 - INFO - DISTRACTION STARTED: gaze_distraction - Looking right off-screen (x=1.000 > 0.9)
+2025-10-25 18:34:28,506 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 0.2s
+2025-10-25 18:42:35,702 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.8)
+2025-10-25 18:42:43,301 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: youtube — waterfox
+2025-10-25 18:42:44,176 - INFO - WINDOW SWITCH: 'YouTube — Waterfox'  (Category: unknown)
+2025-10-25 18:42:45,447 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 2.1s
+2025-10-25 18:42:54,021 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 18.3s
+2025-10-25 18:42:58,453 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.8)
+2025-10-25 18:43:15,277 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 16.8s
+2025-10-25 18:43:18,151 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.8)
+2025-10-25 18:43:24,712 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 6.6s
+2025-10-25 18:43:26,899 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.8)
+2025-10-25 18:48:37,103 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.8)
+2025-10-25 18:48:43,010 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 5.9s
+2025-10-25 18:48:47,261 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=0.854 > 0.8)
+2025-10-25 18:48:47,595 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 0.3s
+2025-10-25 18:48:49,658 - INFO - DISTRACTION STARTED: gaze_distraction - Looking left off-screen (x=0.000 < 0.1)
+2025-10-25 18:48:51,085 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 1.4s
+2025-10-25 18:48:56,058 - INFO - DISTRACTION STARTED: gaze_distraction - Looking right off-screen (x=1.000 > 0.9)
+2025-10-25 18:48:57,015 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 1.0s
+2025-10-25 18:49:01,841 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=0.845 > 0.8)
+2025-10-25 18:49:02,181 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: (2) youtube — waterfox
+2025-10-25 18:49:02,579 - INFO - WINDOW SWITCH: '(2) YouTube — Waterfox'  (Category: unknown)
+2025-10-25 18:49:10,185 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 8.0s
+2025-10-25 18:49:27,473 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 25.6s
+2025-10-25 18:56:15,996 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.8)
+2025-10-25 18:56:20,303 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted keyword 'youtube' in: (2) youtube — waterfox
+2025-10-25 18:56:20,545 - INFO - WINDOW SWITCH: '(2) YouTube — Waterfox'  (Category: unknown)
+2025-10-25 18:56:22,290 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 2.0s

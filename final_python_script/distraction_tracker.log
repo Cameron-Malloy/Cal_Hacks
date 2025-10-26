@@ -648,3 +648,63 @@ google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT: Token must be
 2025-10-25 17:44:31,224 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 0.7s
 2025-10-25 17:44:31,338 - INFO - SUCCESS: Synced event 1bb73ebd-e05f-44a6-a03f-8dcfc9d40228 to Firebase collection 'appAccessEvents'
 2025-10-25 17:44:41,021 - INFO - SUCCESS: Session end data pushed to Firebase
+2025-10-25 21:39:57,604 - INFO - SUCCESS: Session start data pushed to Firebase
+2025-10-25 21:40:09,573 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 21:40:09,746 - INFO - SUCCESS: Synced event 60efc9fe-2de6-4db6-9ba2-e43d037b1420 to Firebase collection 'appAccessEvents'
+2025-10-25 21:40:11,930 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 2.4s
+2025-10-25 21:40:12,145 - INFO - SUCCESS: Synced event 60efc9fe-2de6-4db6-9ba2-e43d037b1420 to Firebase collection 'appAccessEvents'
+2025-10-25 21:40:15,631 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 21:40:15,786 - INFO - SUCCESS: Synced event 6512ae39-7af3-452d-b285-81296862f409 to Firebase collection 'appAccessEvents'
+2025-10-25 21:40:20,216 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted app: chrome.exe
+2025-10-25 21:40:20,220 - INFO - WINDOW SWITCH: 'New Tab - Google Chrome'  (Category: unknown)
+2025-10-25 21:40:21,260 - INFO - SUCCESS: Synced event 00e68794-1768-4a05-9d8a-eef5da466a27 to Firebase collection 'appAccessEvents'
+2025-10-25 21:40:30,809 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 10.6s
+2025-10-25 21:40:30,851 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 15.2s
+2025-10-25 21:40:30,965 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 21:40:31,150 - INFO - SUCCESS: Synced event 00e68794-1768-4a05-9d8a-eef5da466a27 to Firebase collection 'appAccessEvents'
+2025-10-25 21:40:31,301 - INFO - SUCCESS: Synced event 6512ae39-7af3-452d-b285-81296862f409 to Firebase collection 'appAccessEvents'
+2025-10-25 21:40:42,220 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted app: chrome.exe
+2025-10-25 21:40:43,170 - INFO - WINDOW SWITCH: 'New Tab - Google Chrome'  (Category: unknown)
+2025-10-25 21:40:46,252 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=0.946 > 0.9)
+2025-10-25 21:40:47,700 - INFO - SUCCESS: Synced event 39919fd2-ebaa-4b25-a82f-be5d931b4dd0 to Firebase collection 'appAccessEvents'
+2025-10-25 21:40:52,232 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 6.0s
+2025-10-25 21:40:53,798 - INFO - SUCCESS: Synced event 393a012f-c77a-4b1d-be55-d7b4d2f8636c to Firebase collection 'appAccessEvents'
+2025-10-25 21:40:56,933 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 14.7s
+2025-10-25 21:40:57,506 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted app: chrome.exe
+2025-10-25 21:40:57,764 - INFO - WINDOW SWITCH: 'youtube.com - Google Chrome'  (Category: unknown)
+2025-10-25 21:40:58,455 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=0.960 > 0.9)
+2025-10-25 21:40:59,429 - INFO - SUCCESS: Synced event 393a012f-c77a-4b1d-be55-d7b4d2f8636c to Firebase collection 'appAccessEvents'
+2025-10-25 21:41:03,843 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 6.3s
+2025-10-25 21:41:06,704 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted app: chrome.exe
+2025-10-25 21:41:06,704 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 21:41:07,203 - INFO - WINDOW SWITCH: 'New Tab - Google Chrome'  (Category: unknown)
+2025-10-25 21:41:07,853 - INFO - SUCCESS: Synced event 39919fd2-ebaa-4b25-a82f-be5d931b4dd0 to Firebase collection 'appAccessEvents'
+2025-10-25 21:41:11,782 - INFO - SUCCESS: Synced event 79332cd1-9374-403f-9745-f052d58355ab to Firebase collection 'appAccessEvents'
+2025-10-25 21:41:16,697 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 10.0s
+2025-10-25 21:41:17,029 - INFO - SUCCESS: Synced event bfde9e2f-b5cc-4a41-b51f-d95e31c434a2 to Firebase collection 'appAccessEvents'
+2025-10-25 21:41:18,781 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted app: chrome.exe
+2025-10-25 21:41:20,153 - INFO - WINDOW SWITCH: 'Firebase console - Google Chrome'  (Category: unknown)
+2025-10-25 21:41:22,014 - INFO - SUCCESS: Synced event 79332cd1-9374-403f-9745-f052d58355ab to Firebase collection 'appAccessEvents'
+2025-10-25 21:41:35,514 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 16.7s
+2025-10-25 21:41:35,932 - INFO - SUCCESS: Synced event 4dc1fa21-394f-4396-89c1-a24f77f1fb33 to Firebase collection 'appAccessEvents'
+2025-10-25 21:41:37,732 - INFO - DISTRACTION STARTED: window_distraction - Blacklisted app: chrome.exe
+2025-10-25 21:41:39,603 - INFO - WINDOW SWITCH: 'YouTube - Google Chrome'  (Category: unknown)
+2025-10-25 21:41:40,211 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 21:41:43,057 - INFO - DISTRACTION RESOLVED: window_distraction - Duration: 5.3s
+2025-10-25 21:42:03,603 - INFO - SUCCESS: Synced event 4dc1fa21-394f-4396-89c1-a24f77f1fb33 to Firebase collection 'appAccessEvents'
+2025-10-25 21:42:16,565 - INFO - SUCCESS: Synced event 9e2b204e-5998-4b76-ba2d-3272952f4448 to Firebase collection 'appAccessEvents'
+2025-10-25 21:42:17,417 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 21:42:28,444 - INFO - SUCCESS: Synced event 9e2b204e-5998-4b76-ba2d-3272952f4448 to Firebase collection 'appAccessEvents'
+2025-10-25 21:42:32,426 - INFO - SUCCESS: Synced event ff6d4917-8558-40ce-8173-450a0b4c7806 to Firebase collection 'appAccessEvents'
+2025-10-25 21:42:36,244 - INFO - SUCCESS: Synced event ff6d4917-8558-40ce-8173-450a0b4c7806 to Firebase collection 'appAccessEvents'
+2025-10-25 21:42:56,563 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 21:43:10,083 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 131.6s
+2025-10-25 21:43:10,321 - INFO - SUCCESS: Synced event bfde9e2f-b5cc-4a41-b51f-d95e31c434a2 to Firebase collection 'appAccessEvents'
+2025-10-25 21:43:17,359 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 21:43:17,491 - INFO - SUCCESS: Synced event 183d882b-7330-4b62-b418-a1d54b6c449d to Firebase collection 'appAccessEvents'
+2025-10-25 21:43:24,141 - INFO - DISTRACTION RESOLVED: gaze_distraction - Duration: 6.8s
+2025-10-25 21:43:24,319 - INFO - SUCCESS: Synced event 183d882b-7330-4b62-b418-a1d54b6c449d to Firebase collection 'appAccessEvents'
+2025-10-25 21:43:26,362 - INFO - DISTRACTION STARTED: gaze_distraction - Looking down (y=1.000 > 0.9)
+2025-10-25 21:43:26,488 - INFO - SUCCESS: Synced event 9a62baf3-681c-45da-910b-9058f3e76650 to Firebase collection 'appAccessEvents'
+2025-10-25 21:43:26,910 - INFO - SUCCESS: Session stats updated in Firebase
+2025-10-25 21:43:37,083 - INFO - SUCCESS: Session end data pushed to Firebase
