@@ -1,11 +1,20 @@
+# Core dependencies for distraction tracking system
 opencv-python>=4.8.0
 mediapipe>=0.10.0
 numpy>=1.24.0
+
+# Windows-specific dependencies
 pywin32>=306
 psutil>=5.9.0
+
+# Optional AI/ML dependencies
 anthropic>=0.7.0
-pyautogui>=0.9.54
-firebase-admin>=6.0.0
 langchain>=0.1.0
 langchain-anthropic>=0.1.0
 pydantic>=2.0.0
+
+# Firebase integration
+firebase-admin>=6.0.0
+
+# Additional utilities (if needed)
+pyautogui>=0.9.54

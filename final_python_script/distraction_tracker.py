@@ -25,7 +25,8 @@ import queue
 import json
 import logging
 import asyncio
-from datetime import datetime
+import atexit
+from datetime import datetime, timezone, timedelta
 from typing import Dict, List, Optional, Tuple, Any, Set
 from dataclasses import dataclass, asdict
 from enum import Enum
@@ -128,15 +129,17 @@ class DistractionEvent:
     firebase_synced: bool = False
     
     def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary for JSON serialization"""
+        """Convert to dictionary for Firebase serialization"""
         data = asdict(self)
         data['type'] = self.type.value
         data['status'] = self.status.value
         if self.application_category:
             data['application_category'] = self.application_category.value
-        data['start_time'] = self.start_time.isoformat()
+        # Keep datetime objects as-is for Firebase compatibility
+        # Firebase Firestore can directly handle Python datetime objects
+        data['start_time'] = self.start_time
         if self.end_time:
-            data['end_time'] = self.end_time.isoformat()
+            data['end_time'] = self.end_time
         return data
 
 
@@ -180,6 +183,10 @@ class DistractionTracker:
         self.gaze_distraction_start_time = None
         self.last_distraction_check = time.time()
         
+        # Window state tracking
+        self.last_window_key = None
+        self.last_window_info = None
+        
         # Active distractions tracking (concurrent support)
         self.active_distractions: Dict[str, DistractionEvent] = {}
         self.distraction_events: List[DistractionEvent] = []
@@ -196,19 +203,56 @@ class DistractionTracker:
         self.firebase_app = None
         self.firestore_client = None
         if FIREBASE_AVAILABLE and self.config.get('use_firebase', False):
+            print("[FIREBASE] FIREBASE INITIALIZATION STARTING...")
+            print(f"[FIREBASE] Firebase available: {FIREBASE_AVAILABLE}")
+            print(f"[FIREBASE] Use Firebase config: {self.config.get('use_firebase', False)}")
             try:
                 firebase_config_path = self.config.get('firebase_config_path', 
                                                      'firebase-service-account.json')
+                print(f"[FIREBASE] Looking for Firebase config at: {firebase_config_path}")
+                print(f"[FIREBASE] Config file exists: {os.path.exists(firebase_config_path)}")
+                
                 if os.path.exists(firebase_config_path):
+                    print("[FIREBASE] Loading Firebase credentials...")
                     cred = credentials.Certificate(firebase_config_path)
-                    self.firebase_app = firebase_admin.initialize_app(cred)
-                    self.firestore_client = firestore.client()
-                    print("✓ Firebase initialized")
+                    print("[FIREBASE] Credentials loaded successfully")
+                    
+                    print("[FIREBASE] Initializing Firebase app...")
+                    try:
+                        self.firebase_app = firebase_admin.initialize_app(cred)
+                        print("[FIREBASE] Firebase app initialized successfully")
+                    except Exception as app_error:
+                        print(f"[ERROR] Firebase app initialization failed: {app_error}")
+                        print("[FIREBASE] This might be due to:")
+                        print("[FIREBASE] 1. System clock being wrong")
+                        print("[FIREBASE] 2. Expired service account key")
+                        print("[FIREBASE] 3. Network connectivity issues")
+                        raise app_error
+                    
+                    print("[FIREBASE] Creating Firestore client...")
+                    try:
+                        self.firestore_client = firestore.client()
+                        print("[FIREBASE] Firestore client created successfully")
+                        print("SUCCESS: Firebase initialized successfully!")
+                    except Exception as client_error:
+                        print(f"[ERROR] Firestore client creation failed: {client_error}")
+                        print("[FIREBASE] This might be due to:")
+                        print("[FIREBASE] 1. Invalid service account permissions")
+                        print("[FIREBASE] 2. Project ID mismatch")
+                        print("[FIREBASE] 3. Firestore not enabled in Firebase console")
+                        raise client_error
                 else:
-                    print(f"Warning: Firebase config file not found: {firebase_config_path}")
+                    print(f"[ERROR] Firebase config file not found: {firebase_config_path}")
             except Exception as e:
-                print(f"Warning: Could not initialize Firebase: {e}")
+                print(f"[ERROR] Could not initialize Firebase: {e}")
+                print(f"[ERROR] Error type: {type(e).__name__}")
+                import traceback
+                print(f"[ERROR] Full traceback: {traceback.format_exc()}")
+        else:
+            print(f"[FIREBASE] Firebase disabled - Available: {FIREBASE_AVAILABLE}, Config enabled: {self.config.get('use_firebase', False)}")
         
+        self.start_time = time.time()
+        self.session_id = "session_" + str(self.start_time)
         # Claude API client (Legacy)
         self.claude_client = None
         
@@ -249,7 +293,69 @@ class DistractionTracker:
         print(f"Blacklisted keywords: {len(self.blacklisted_keywords)}")
         print(f"Claude integration: {'Enabled (LangChain)' if self.langchain_claude else 'Enabled (Legacy)' if self.claude_client else 'Disabled'}")
         print(f"Firebase integration: {'Enabled' if self.firestore_client else 'Disabled'}")
+        if self.firestore_client:
+            print(f"[FIREBASE] Collection: {self.config.get('firebase_collection', 'appAccessEvents')}")
+            print(f"[FIREBASE] Queue size: {self.firebase_queue.maxsize}")
         print(f"Concurrent distraction tracking: Enabled")
+        
+        # Register exit handler to resolve all active distractions
+        atexit.register(self.resolve_all_active_distractions_on_exit)
+    
+    def get_pst_time(self) -> datetime:
+        """Get current time in PST timezone"""
+        # PST is UTC-8, PDT is UTC-7
+        # For simplicity, we'll use PST (UTC-8) year-round
+        pst_offset = timedelta(hours=-8)
+        pst_timezone = timezone(pst_offset)
+        return datetime.now(pst_timezone)
+    
+    def resolve_all_active_distractions_on_exit(self):
+        """Resolve all active distractions when program exits"""
+        print("\n" + "=" * 60)
+        print("PROGRAM EXITING - RESOLVING ALL ACTIVE DISTRACTIONS")
+        print("=" * 60)
+        
+        # Get current time in PST
+        exit_time_pst = self.get_pst_time()
+        
+        print(f"Exit time (PST): {exit_time_pst}")
+        
+        # Resolve all active distractions (both gaze and window distractions)
+        active_distraction_ids = list(self.active_distractions.keys())
+        print(f"Found {len(active_distraction_ids)} active distractions to resolve")
+        
+        # Count by type for reporting
+        gaze_count = 0
+        window_count = 0
+        
+        for distraction_id in active_distraction_ids:
+            if distraction_id in self.active_distractions:
+                event = self.active_distractions[distraction_id]
+                event.status = DistractionStatus.RESOLVED
+                event.end_time = exit_time_pst  # Use PST time
+                
+                # Count by type
+                if event.type == DistractionType.GAZE_DISTRACTION:
+                    gaze_count += 1
+                elif event.type == DistractionType.WINDOW_DISTRACTION:
+                    window_count += 1
+                
+                # Log the distraction resolution
+                duration = (event.end_time - event.start_time).total_seconds()
+                print(f"Resolving {event.type.value}: {distraction_id} - Duration: {duration:.1f}s")
+                
+                # Queue for immediate Firebase sync
+                if self.firestore_client:
+                    print(f"[FIREBASE] Queuing resolved event {distraction_id} for Firebase sync")
+                    self.firebase_queue.put(event)
+                
+                # Remove from active distractions
+                del self.active_distractions[distraction_id]
+        
+        print(f"[SUCCESS] Resolved {len(active_distraction_ids)} active distractions")
+        print(f"  - Gaze distractions: {gaze_count}")
+        print(f"  - Window distractions: {window_count}")
+        print("=" * 60)
     
     def load_config(self, config_file: str) -> Dict[str, Any]:
         """Load configuration from JSON file"""
@@ -335,7 +441,7 @@ class DistractionTracker:
             type=distraction_type,
             status=DistractionStatus.ACTIVE,
             reason=reason,
-            start_time=datetime.now(),
+            start_time=self.get_pst_time(),  # Use PST time
             gaze_data=gaze_data,
             window_data=window_data
         )
@@ -366,14 +472,17 @@ class DistractionTracker:
         
         # If no Claude processing needed, queue Firebase immediately
         if not needs_claude:
+            print(f"[FIREBASE] Queuing event {event.id} for immediate Firebase sync (no Claude processing needed)")
             self.firebase_queue.put(event)
+            print(f"[FIREBASE] Event {event.id} queued successfully")
     
     def resolve_distraction(self, event_id: str):
         """Resolve an active distraction"""
         if event_id in self.active_distractions:
             event = self.active_distractions[event_id]
             event.status = DistractionStatus.RESOLVED
-            event.end_time = datetime.now()
+            # Use PST time
+            event.end_time = self.get_pst_time()
             
             # Log the distraction resolution
             duration = (event.end_time - event.start_time).total_seconds()
@@ -383,7 +492,9 @@ class DistractionTracker:
             self.logging_queue.put(('resolve', event))
             
             # Queue Firebase sync (will happen after any pending Claude processing)
+            print(f"[FIREBASE] Queuing resolved event {event.id} for Firebase sync")
             self.firebase_queue.put(event)
+            print(f"[FIREBASE] Resolved event {event.id} queued successfully")
             
             # Remove from active distractions
             del self.active_distractions[event_id]
@@ -628,25 +739,52 @@ class DistractionTracker:
     
     async def sync_to_firebase(self, event: DistractionEvent):
         """Sync distraction event to Firebase"""
+        print(f"[FIREBASE] FIREBASE SYNC STARTING for event {event.id}")
+        print(f"[FIREBASE] Event type: {event.type.value}")
+        print(f"[FIREBASE] Event status: {event.status.value}")
+        print(f"[FIREBASE] Event reason: {event.reason}")
+        
         if not self.firestore_client:
+            print("[ERROR] ERROR: Firebase client not available - skipping sync")
             self.logger.debug("Firebase client not available - skipping sync")
             return
         
+        print("[FIREBASE] Firebase client is available, proceeding with sync...")
+        
         try:
-            collection_name = self.config.get('firebase_collection', 'distraction_events')
-            doc_ref = self.firestore_client.collection(collection_name).document(event.id)
+            collection_name = self.config.get('firebase_collection', 'appAccessEvents')
+            print(f"[FIREBASE] Collection name: {collection_name}")
+            print(f"[FIREBASE] Session ID: {self.session_id}")
+            print(f"[FIREBASE] Event ID: {event.id}")
+            
+            # Build document reference
+            doc_ref = self.firestore_client.collection('users').document('cammal').collection('sessions').document(self.session_id).collection(collection_name).document(event.id)
+            print(f"[FIREBASE] Document reference path: users/cammal/sessions/{self.session_id}/{collection_name}/{event.id}")
             
             # Convert event to dict and ensure all fields are serializable
+            print("[FIREBASE] Converting event to dictionary...")
             event_dict = event.to_dict()
+            print(f"[FIREBASE] Event dict keys: {list(event_dict.keys())}")
             
-            # Add timestamp for Firebase
-            event_dict['firebase_timestamp'] = datetime.now().isoformat()
+            # Add timestamp for Firebase (use PST time)
+            firebase_timestamp = self.get_pst_time()
+            event_dict['firebase_timestamp'] = firebase_timestamp
+            print(f"[FIREBASE] Added Firebase timestamp: {firebase_timestamp}")
             
+            print("[FIREBASE] Attempting to write to Firestore...")
             doc_ref.set(event_dict)
+            print("[FIREBASE] Firestore write completed successfully!")
+            
             event.firebase_synced = True
-            self.logger.info(f"✓ Synced event {event.id} to Firebase collection '{collection_name}'")
+            print(f"SUCCESS: Synced event {event.id} to Firebase collection '{collection_name}'")
+            self.logger.info(f"SUCCESS: Synced event {event.id} to Firebase collection '{collection_name}'")
             
         except Exception as e:
+            print(f"[ERROR] ERROR: Firebase sync failed for event {event.id}")
+            print(f"[ERROR] Error message: {e}")
+            print(f"[ERROR] Error type: {type(e).__name__}")
+            import traceback
+            print(f"[ERROR] Full traceback: {traceback.format_exc()}")
             self.logger.error(f"Firebase sync error for event {event.id}: {e}")
             # Don't re-raise the exception to prevent worker thread crashes
     
@@ -667,6 +805,12 @@ class DistractionTracker:
                                 'application_category': event.application_category.value if event.application_category else 'unknown'
                             }
                         
+                        # Convert datetime objects to ISO format for JSON serialization
+                        if 'start_time' in event_data and isinstance(event_data['start_time'], datetime):
+                            event_data['start_time'] = event_data['start_time'].isoformat()
+                        if 'end_time' in event_data and isinstance(event_data['end_time'], datetime):
+                            event_data['end_time'] = event_data['end_time'].isoformat()
+                        
                         with open('distraction_events.json', 'a') as f:
                             f.write(json.dumps(event_data) + '\n')
                             
@@ -677,8 +821,15 @@ class DistractionTracker:
                             
                     elif action == 'resolve':
                         # Log distraction resolution to file
+                        event_data = event.to_dict()
+                        # Convert datetime objects to ISO format for JSON serialization
+                        if 'start_time' in event_data and isinstance(event_data['start_time'], datetime):
+                            event_data['start_time'] = event_data['start_time'].isoformat()
+                        if 'end_time' in event_data and isinstance(event_data['end_time'], datetime):
+                            event_data['end_time'] = event_data['end_time'].isoformat()
+                        
                         with open('distraction_events.json', 'a') as f:
-                            f.write(json.dumps(event.to_dict()) + '\n')
+                            f.write(json.dumps(event_data) + '\n')
                         
                     self.logging_queue.task_done()
                 except queue.Empty:
@@ -693,27 +844,37 @@ class DistractionTracker:
     def run_firebase_worker(self):
         """Run Firebase sync worker in separate thread"""
         def worker():
+            print("[FIREBASE] FIREBASE WORKER THREAD STARTED")
             while self.running:
                 try:
                     event = self.firebase_queue.get(timeout=1)
+                    print(f"[FIREBASE] Firebase worker received event: {event.id}")
                     
                     # Run async Firebase sync with proper error handling
                     try:
+                        print("[FIREBASE] Creating new event loop for Firebase sync...")
                         loop = asyncio.new_event_loop()
                         asyncio.set_event_loop(loop)
+                        print("[FIREBASE] Running Firebase sync...")
                         loop.run_until_complete(self.sync_to_firebase(event))
+                        print("[FIREBASE] Firebase sync completed successfully")
                     except Exception as e:
+                        print(f"[ERROR] ERROR: Firebase sync error in worker for event {event.id}: {e}")
                         self.logger.error(f"Firebase sync error for event {event.id}: {e}")
                     finally:
                         try:
+                            print("[FIREBASE] Closing event loop...")
                             loop.close()
-                        except:
-                            pass
+                            print("[FIREBASE] Event loop closed")
+                        except Exception as e:
+                            print(f"[ERROR] Error closing event loop: {e}")
                     
+                    print(f"[FIREBASE] Firebase worker completed task for event {event.id}")
                     self.firebase_queue.task_done()
                 except queue.Empty:
                     continue
                 except Exception as e:
+                    print(f"[ERROR] ERROR: Firebase worker error: {e}")
                     self.logger.error(f"Firebase worker error: {e}")
                     # Still mark task as done to prevent hanging
                     try:
@@ -721,8 +882,10 @@ class DistractionTracker:
                     except:
                         pass
         
+        print("[FIREBASE] Starting Firebase worker thread...")
         thread = threading.Thread(target=worker, daemon=True)
         thread.start()
+        print("[FIREBASE] Firebase worker thread started successfully")
         return thread
     
     def run_claude_worker(self):
@@ -765,7 +928,9 @@ class DistractionTracker:
                                         self.logger.info(f"Suggested action: {event.suggested_action}")
                                 
                                 # Queue Firebase sync after Claude processing completes
+                                print(f"[FIREBASE] Queuing event {event.id} for Firebase sync after Claude processing")
                                 self.firebase_queue.put(event)
+                                print(f"[FIREBASE] Event {event.id} queued after Claude processing")
                             except Exception as e:
                                 self.logger.error(f"Claude categorize_and_assess error: {e}")
                             finally:
@@ -789,7 +954,9 @@ class DistractionTracker:
                                     self.logger.info(f"Application categorized as: {category.value}")
                                 
                                 # Queue Firebase sync after categorization completes
+                                print(f"[FIREBASE] Queuing event {event.id} for Firebase sync after categorization")
                                 self.firebase_queue.put(event)
+                                print(f"[FIREBASE] Event {event.id} queued after categorization")
                             except Exception as e:
                                 self.logger.error(f"Claude categorize_only error: {e}")
                             finally:
@@ -903,13 +1070,21 @@ class DistractionTracker:
     
     def update_window_data(self, window_data: Dict[str, Any]):
         """Update window monitoring data and handle window-based distractions"""
+        # Store previous window info for comparison
+        previous_window_info = self.last_window_info
+        previous_window_key = self.last_window_key
+        
+        # Update current window info
         self.current_window_info = window_data
-        
-        # Check for window-based distractions
-        is_distracted, reason = self.is_window_distracted(window_data)
-        
-        # Get current window key for tracking
         current_window_key = f"{window_data.get('window_title', '')}|{window_data.get('process_name', '')}"
+                
+        # If window changed, resolve any active distractions from the previous window
+        if previous_window_key and previous_window_key != current_window_key:
+            self.resolve_distractions_for_window(previous_window_key)
+            print(f"[WINDOW] Window changed from '{previous_window_key}' to '{current_window_key}'")
+        
+        # Check if current window is distracting
+        is_distracted, reason = self.is_window_distracted(window_data)
         
         if is_distracted:
             # Check if we already have an active window distraction for this window
@@ -921,23 +1096,39 @@ class DistractionTracker:
             
             if not active_window_distractions:
                 # Create and start new window distraction
+                print(f"[WINDOW] Starting new distraction for: {window_data.get('window_title', '')}")
                 event = self.create_distraction_event(
                     DistractionType.WINDOW_DISTRACTION,
-                reason,
-                {'gaze_x': self.current_gaze_x, 'gaze_y': self.current_gaze_y, 'is_tracking': self.is_gaze_tracking},
-                window_data
-            )
+                    reason,
+                    {'gaze_x': self.current_gaze_x, 'gaze_y': self.current_gaze_y, 'is_tracking': self.is_gaze_tracking},
+                    window_data
+                )
                 self.start_distraction(event)
+            else:
+                print(f"[WINDOW] Distraction already active for: {window_data.get('window_title', '')}")
         else:
-            # Resolve any active window distractions for this window
-            active_window_distractions = [d for d in self.active_distractions.values() 
-                                        if (d.type == DistractionType.WINDOW_DISTRACTION and 
-                                            d.status == DistractionStatus.ACTIVE and
-                                            d.window_data and
-                                            f"{d.window_data.get('window_title', '')}|{d.window_data.get('process_name', '')}" == current_window_key)]
-            
-            for distraction in active_window_distractions:
-                self.resolve_distraction(distraction.id)
+            print(f"[WINDOW] Productive window: {window_data.get('window_title', '')}")
+        
+        # Update window state tracking
+        self.last_window_key = current_window_key
+        self.last_window_info = window_data.copy()
+    
+    def resolve_distractions_for_window(self, window_key: str):
+        """Resolve all active distractions for a specific window"""
+        print(f"[WINDOW] Resolving distractions for window: {window_key}")
+        
+        # Find all active window distractions for this specific window
+        active_window_distractions = [d for d in self.active_distractions.values() 
+                                    if (d.type == DistractionType.WINDOW_DISTRACTION and 
+                                        d.status == DistractionStatus.ACTIVE and
+                                        d.window_data and
+                                        f"{d.window_data.get('window_title', '')}|{d.window_data.get('process_name', '')}" == window_key)]
+        
+        print(f"[WINDOW] Found {len(active_window_distractions)} active distractions to resolve for window: {window_key}")
+        
+        for distraction in active_window_distractions:
+            print(f"[WINDOW] Resolving distraction: {distraction.id} - {distraction.window_data.get('window_title', '')}")
+            self.resolve_distraction(distraction.id)
     
     def run_gaze_monitoring(self):
         """Run gaze monitoring in separate thread"""
@@ -988,12 +1179,8 @@ class DistractionTracker:
                 window_info = self.window_logger.get_active_window_info()
                 
                 if window_info:
-                    # Check if window has changed
-                    current_window_key = f"{window_info['window_title']}|{window_info['process_name']}"
-                    
-                    if not hasattr(self, 'last_window_key') or self.last_window_key != current_window_key:
-                        self.last_window_key = current_window_key
-                        self.update_window_data(window_info)
+                    # Always update window data - the method will handle change detection
+                    self.update_window_data(window_info)
                 
                 time.sleep(0.5)  # Check every 500ms
         
@@ -1229,6 +1416,7 @@ class DistractionTracker:
             print(f"Resolved events: {resolved_count}")
             print(f"Active events: {active_count}")
             print(f"Events logged to: distraction_events.json")
+            
             if self.firestore_client:
                 print(f"Events synced to Firebase: {self.config.get('firebase_collection', 'distraction_events')}")
             print("=" * 60)
