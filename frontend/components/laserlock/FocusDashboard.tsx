@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Clock, Eye, Monitor, Zap, TrendingUp, Brain, Flame, Play, Square, Copy, CheckCircle2 } from "lucide-react";
 import { GlassCard } from "./GlassCard";
 import { StatCard } from "./StatCard";
@@ -38,6 +39,7 @@ interface DistractionEvent {
 }
 
 export function FocusDashboard() {
+  const router = useRouter();
   const { sessionId, isSessionActive, startSession, endSession } = useSession();
   const [sessionData, setSessionData] = useState<SessionData | null>(null);
   const [distractions, setDistractions] = useState<DistractionEvent[]>([]);
@@ -112,8 +114,8 @@ export function FocusDashboard() {
 
   const handleEndSession = async () => {
     await endSession();
-    // Keep session data visible after ending
-    // Don't clear sessionData or distractions so user can still see them
+    // Redirect to session summary (report page)
+    router.push("/report");
   };
 
   const copyBackendCommand = () => {
