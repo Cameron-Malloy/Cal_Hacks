@@ -309,3 +309,90 @@ export const updateStreak = async (userId: string): Promise<void> => {
     });
   }
 };
+
+// ========== FRIENDS LEADERBOARD FUNCTIONS ==========
+
+// Get friends list for a user
+export const getFriendsList = async (userId: string): Promise<UserProfile[]> => {
+  const friendsRef = collection(db, "users", userId, "friends");
+  const querySnapshot = await getDocs(friendsRef);
+  
+  const friendIds: string[] = [];
+  querySnapshot.forEach((doc) => {
+    const friendData = doc.data();
+    // The user_id in friends subcollection corresponds to uid in users collection
+    if (friendData.user_id) {
+      friendIds.push(friendData.user_id);
+    }
+  });
+
+  // Fetch all friend profiles from users collection
+  const friends: UserProfile[] = [];
+  for (const friendId of friendIds) {
+    const userRef = doc(db, "users", friendId);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      friends.push(userSnap.data() as UserProfile);
+    }
+  }
+
+  return friends;
+};
+
+// Get friends leaderboard sorted by totalFocusTime
+export const getFriendsLeaderboard = async (userId: string): Promise<UserProfile[]> => {
+  const friends = await getFriendsList(userId);
+  
+  // Sort friends by totalFocusTime descending
+  return friends.sort((a, b) => b.totalFocusTime - a.totalFocusTime);
+};
+
+// Subscribe to friends leaderboard changes in real-time
+export const subscribeToFriendsLeaderboard = (
+  userId: string,
+  callback: (users: UserProfile[]) => void
+) => {
+  try {
+    const friendsRef = collection(db, "users", userId, "friends");
+    
+    return onSnapshot(
+      friendsRef, 
+      async (querySnapshot) => {
+        const friendIds: string[] = [];
+        querySnapshot.forEach((doc) => {
+          const friendData = doc.data();
+          if (friendData.user_id) {
+            friendIds.push(friendData.user_id);
+          }
+        });
+
+        // Fetch friend profiles
+        const friends: UserProfile[] = [];
+        for (const friendId of friendIds) {
+          try {
+            const userRef = doc(db, "users", friendId);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+              friends.push(userSnap.data() as UserProfile);
+            }
+          } catch (error) {
+            console.error(`Error fetching friend ${friendId}:`, error);
+          }
+        }
+
+        // Sort by totalFocusTime
+        const sortedFriends = friends.sort((a, b) => b.totalFocusTime - a.totalFocusTime);
+        callback(sortedFriends);
+      },
+      (error) => {
+        console.error("Friends leaderboard subscription error:", error);
+        // Return empty array on error instead of crashing
+        callback([]);
+      }
+    );
+  } catch (error) {
+    console.error("Error setting up friends leaderboard subscription:", error);
+    // Return a dummy unsubscribe function
+    return () => {};
+  }
+};

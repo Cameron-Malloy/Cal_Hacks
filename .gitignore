@@ -12,4 +12,5 @@ venv/
 *.pyc
 .DS_Store
 node_modules/
+/final_python_script/firebase-service-account.json
 .next/

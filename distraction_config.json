@@ -1,7 +1,7 @@
 {
   "blacklisted_apps": [
     "chrome.exe",
-    "firefox.exe", 
+    "firefox.exe",
     "edge.exe",
     "discord.exe",
     "slack.exe",
@@ -16,7 +16,7 @@
   "blacklisted_keywords": [
     "youtube",
     "facebook",
-    "twitter", 
+    "twitter",
     "instagram",
     "tiktok",
     "reddit",
@@ -26,13 +26,14 @@
     "spotify",
     "gaming",
     "game",
-    "entertainment" 
+    "entertainment"
   ],
-  "use_firebase": true,
+  "use_claude": false,
+  "claude_api_key": null,
+  "use_firebase": false,
   "firebase_config_path": "firebase-service-account.json",
-  "firebase_collection": "appAccessEvents",
-  "demo_user_id": "demo-user",
-  "gaze_threshold_y": 0.9,
+  "firebase_collection": "distraction_events",
+  "gaze_threshold_y": 0.8,
   "gaze_threshold_x_min": 0.1,
   "gaze_threshold_x_max": 0.9,
   "distraction_timeout": 2.0

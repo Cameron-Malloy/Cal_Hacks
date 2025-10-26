@@ -234,13 +234,16 @@ class DistractionTracker:
                     try:
                         self.firebase_app = firebase_admin.initialize_app(cred)
                         print("[FIREBASE] Firebase app initialized successfully")
-                    except Exception as app_error:
-                        print(f"[ERROR] Firebase app initialization failed: {app_error}")
-                        print("[FIREBASE] This might be due to:")
-                        print("[FIREBASE] 1. System clock being wrong")
-                        print("[FIREBASE] 2. Expired service account key")
-                        print("[FIREBASE] 3. Network connectivity issues")
-                        raise app_error
+                    except Exception:
+                        try:
+                            self.firebase_app = firebase_admin.get_app()
+                        except Exception as app_error:
+                            print(f"[ERROR] Firebase app initialization failed: {app_error}")
+                            print("[FIREBASE] This might be due to:")
+                            print("[FIREBASE] 1. System clock being wrong")
+                            print("[FIREBASE] 2. Expired service account key")
+                            print("[FIREBASE] 3. Network connectivity issues")
+                            raise app_error
                     
                     print("[FIREBASE] Creating Firestore client...")
                     try:
@@ -1389,7 +1392,7 @@ class DistractionTracker:
                 # Status updates removed to reduce terminal clutter
                 
                 # Update session stats every 30 seconds
-                if time.time() - last_stats_update >= 30:
+                if time.time() - last_stats_update >= 10:
                     if self.firestore_client:
                         print("[FIREBASE] Updating session stats...")
                         self.push_session_stats_update()
